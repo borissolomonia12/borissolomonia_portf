@@ -1,0 +1,90 @@
+[
+  {
+    "id": "rsge-banks",
+    "src": "/projects/network/rsge-banks.webp",
+    "alt": "RS.ge and supplier purchase reconciliation workspace",
+    "width": 1440,
+    "height": 960,
+    "bytes": 34468
+  },
+  {
+    "id": "bank-analytics",
+    "src": "/projects/network/bank-analytics.webp",
+    "alt": "BOG and TBC bank movement analytics workspace",
+    "width": 1440,
+    "height": 960,
+    "bytes": 25450
+  },
+  {
+    "id": "delivery-analytics",
+    "src": "/projects/network/delivery-analytics.webp",
+    "alt": "Delivery sales and bank income analytics workspace",
+    "width": 1440,
+    "height": 960,
+    "bytes": 42014
+  },
+  {
+    "id": "internal-analytics",
+    "src": "/projects/network/internal-analytics.webp",
+    "alt": "Cash flow categorization and transfer tracking workspace",
+    "width": 1440,
+    "height": 960,
+    "bytes": 24410
+  },
+  {
+    "id": "nine-t-erp",
+    "src": "/projects/network/nine-t-erp.webp",
+    "alt": "9T ERP secure financial analytics sign-in screen",
+    "width": 1440,
+    "height": 900,
+    "bytes": 11594
+  },
+  {
+    "id": "tasty-erp",
+    "src": "/projects/network/tasty-erp.webp",
+    "alt": "Tasty ERP dashboard with waybill, VAT, sales, and payment controls",
+    "width": 1440,
+    "height": 900,
+    "bytes": 44326
+  },
+  {
+    "id": "optimo-sync",
+    "src": "/projects/network/optimo-sync.webp",
+    "alt": "Optimo Sync dashboard showing marketplace synchronization status",
+    "width": 1440,
+    "height": 900,
+    "bytes": 24982
+  },
+  {
+    "id": "order-app",
+    "src": "/projects/network/order-app.webp",
+    "alt": "Order App secure role-based ordering sign-in screen",
+    "width": 1440,
+    "height": 900,
+    "bytes": 7178
+  },
+  {
+    "id": "brooks-memory",
+    "src": "/projects/network/brooks-memory.webp",
+    "alt": "AI-generated fictional courtyard at dusk, with a teal wooden balcony and warm copper light",
+    "width": 1500,
+    "height": 1000,
+    "bytes": 227138
+  },
+  {
+    "id": "bachmann-today",
+    "src": "/projects/network/bachmann-today.webp",
+    "alt": "BachmannLogi financial operations prototype, using fabricated demonstration data",
+    "width": 1173,
+    "height": 1000,
+    "bytes": 43032
+  },
+  {
+    "id": "bachmann-cost-centres",
+    "src": "/projects/network/bachmann-cost-centres.webp",
+    "alt": "BachmannLogi cost-centre comparison prototype with synthetic figures and data-availability markers",
+    "width": 1173,
+    "height": 1000,
+    "bytes": 48910
+  }
+]

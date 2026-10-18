@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="195" height="195" viewBox="0 0 195 195" role="img" aria-labelledby="title desc">
+  <title id="title">RS logo</title>
+  <desc id="desc">A green arrow entering a circular blue gradient mark.</desc>
+  <defs>
+    <clipPath id="blue-mark">
+      <path d="M27.25 41.65 72.55 76.65A36.5 36.5 0 1 1 72.55 118.35L27.25 153.35A92.5 92.5 0 1 0 27.25 41.65Z"/>
+    </clipPath>
+    <linearGradient id="blue-base" x1="18" y1="30" x2="180" y2="164" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d9bd6"/>
+      <stop offset="0.48" stop-color="#2b419d"/>
+      <stop offset="1" stop-color="#168dcc"/>
+    </linearGradient>
+    <radialGradient id="blue-right" cx="194" cy="97.5" r="83" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#13a5dd" stop-opacity=".96"/>
+      <stop offset=".58" stop-color="#188fcb" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#188fcb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blue-upper-left" cx="35" cy="22" r="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#249bd3" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#249bd3" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blue-lower-left" cx="42" cy="168" r="76" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#283b98" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#283b98" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="green-base" x1="0" y1="97.5" x2="73" y2="97.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#08763d"/>
+      <stop offset=".55" stop-color="#2b9c47"/>
+      <stop offset="1" stop-color="#4fbd59"/>
+    </linearGradient>
+    <linearGradient id="green-highlight" x1="0" y1="97.5" x2="51" y2="97.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#47b666" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#b2ddb9" stop-opacity=".95"/>
+    </linearGradient>
+  </defs>
+
+  <g clip-path="url(#blue-mark)">
+    <rect width="195" height="195" fill="url(#blue-base)"/>
+    <rect width="195" height="195" fill="url(#blue-upper-left)"/>
+    <rect width="195" height="195" fill="url(#blue-lower-left)"/>
+    <rect width="195" height="195" fill="url(#blue-right)"/>
+  </g>
+
+  <path d="M0 42.1 73 97.5 0 152.9Z" fill="url(#green-base)"/>
+  <path d="M0 59.7 49.8 97.5 0 135.3Z" fill="url(#green-highlight)"/>
+</svg>

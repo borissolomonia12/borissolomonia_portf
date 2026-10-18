@@ -1,278 +1,338 @@
-# Portfolio Deployment Guide (Single Source of Truth)
+# Portfolio Deployment Guide — Single Source of Truth
 
-This is the only deployment guide you need.
-It combines the old deployment docs and the key lessons from our chat.
-Follow steps in order. Each step is small.
+This is the only deployment guide for this repository. It includes the working VM, Caddy, Cloudflare, SSH, Artifact Registry, GitHub Actions, rollback, and troubleshooting details established during deployment.
 
-## Quick facts (from our environment)
+## 1. What is being deployed
 
-- Project: tastyapp-ff8b2
-- VM: instance-20251229-203034 (user: borissolomonia)
-- VM IP: 34.136.155.111
-- Zone: us-central1-c
-- Domain: borissolomonia.com (and www)
-- Artifact Registry repo: us-central1-docker.pkg.dev/tastyapp-ff8b2/portfolio
-- App container name: portfolio-boris-app
-- App host port: 8090 (do not change)
-- Caddy container name: caddy
-- Caddyfile host path: /home/borissolomonia/apps/tasty-erp/Caddyfile.production
-- Docker network used by Caddy: web
+| Item | Value |
+| --- | --- |
+| GCP project | `tastyapp-ff8b2` |
+| VM | `instance-20251229-203034` |
+| Zone | `us-central1-c` |
+| Public IP | `34.136.155.111` |
+| SSH user | `borissolomonia` |
+| Domain | `borissolomonia.com`, `www.borissolomonia.com` |
+| Artifact Registry | `us-central1-docker.pkg.dev/tastyapp-ff8b2/portfolio` |
+| Image | `portfolio-boris-app` |
+| Container | `portfolio-boris-app` |
+| Private host port | `127.0.0.1:8090` |
+| Shared Docker network | `web` |
+| Existing proxy | container `caddy`, image `caddy:2-alpine` |
+| Caddy source file | `/home/borissolomonia/apps/tasty-erp/Caddyfile.production` |
 
-## Rule 0 (do not break other apps)
+## 2. The safety rules
 
-- Do not stop other containers.
-- Do not restart Caddy. Only reload it.
-- Keep this app on port 8090.
-- Do not run docker system prune on this VM.
+The VM already runs Tasty ERP. Follow these rules every time:
 
-## Step 1: Use Cloud Shell for gcloud commands
+1. Never run `docker compose down` outside this portfolio's Compose file.
+2. Never run `docker system prune` on this VM.
+3. Never stop or recreate `caddy` or any `tasty-erp-*` container.
+4. Never bind this app to public ports `80` or `443`; Caddy owns them.
+5. Deploy only the service named `portfolio-boris-app` with `--no-deps`.
+6. The GitHub workflow must not edit or reload Caddy. Caddy setup is a one-time manual operation.
+7. Keep the Compose CPU, memory, process, read-only filesystem, and log limits.
 
-If gcloud is missing on your Windows PC, use GCP Cloud Shell.
-All gcloud commands in this guide work there.
+## 3. Important security cleanup
 
-## Step 2: Make sure GCP services exist
+A Firebase service-account private key was pasted into chat. Treat that key as compromised.
 
-1) Artifact Registry repo "portfolio" exists in us-central1.
+In Google Cloud Console, open **IAM & Admin → Service Accounts → `firebase-adminsdk-fbsvc` → Keys** and delete the exposed key. Do not put it in GitHub, Secret Manager, `.env`, or this repository.
 
-Cloud Shell:
-```
-gcloud artifacts repositories create portfolio \
-  --repository-format=docker \
-  --location=us-central1 \
-  --project tastyapp-ff8b2
-```
+This app is a static React site. It currently needs **no runtime `.env` and no Secret Manager secret**. Public Vite variables are compiled into browser JavaScript and are not secrets.
 
-2) Secret Manager secret "portfolio-cv" exists.
+## 4. One-time Google Cloud setup
 
-## Step 3: GitHub Actions service account (build and push)
+Use Google Cloud Shell if `gcloud` is not installed on Windows. Paste one command at a time.
 
-Use a dedicated deployer service account (recommended).
-Cloud Shell:
-```
-PROJECT=tastyapp-ff8b2
-SA=gha-portfolio-deployer@$PROJECT.iam.gserviceaccount.com
+```bash
+PROJECT_ID=tastyapp-ff8b2
+PROJECT_NUMBER="$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)')"
+POOL_ID=github-actions
+PROVIDER_ID=github
+SERVICE_ACCOUNT=gha-portfolio-deployer
+REPOSITORY=BorisSolomonia/Boris_Portf_2
 
-gcloud iam service-accounts create gha-portfolio-deployer \
-  --project $PROJECT \
-  --display-name "GitHub Actions deployer"
-
-gcloud projects add-iam-policy-binding $PROJECT \
-  --member=serviceAccount:$SA \
-  --role=roles/artifactregistry.admin
-
-gcloud projects add-iam-policy-binding $PROJECT \
-  --member=serviceAccount:$SA \
-  --role=roles/secretmanager.secretAccessor
-
-gcloud iam service-accounts keys create /tmp/gha-portfolio-deployer.json \
-  --iam-account $SA
+gcloud config set project "$PROJECT_ID"
+gcloud services enable artifactregistry.googleapis.com iamcredentials.googleapis.com sts.googleapis.com
 ```
 
-Put the JSON from `/tmp/gha-portfolio-deployer.json` into GitHub secret `GCP_SA_KEY`.
+Create the dedicated GitHub deploy identity:
 
-If you already use another service account, ensure it has the roles above.
-The earlier `firebase-adminsdk` account did not have Artifact Registry permissions.
+```bash
+gcloud iam service-accounts create "$SERVICE_ACCOUNT" \
+  --display-name="GitHub portfolio deployer" \
+  --project="$PROJECT_ID"
 
-## Step 4: VM service account permissions
+DEPLOYER_EMAIL="$SERVICE_ACCOUNT@$PROJECT_ID.iam.gserviceaccount.com"
 
-The workflow runs `gcloud` on the VM to read Secret Manager and auth Docker.
-The VM service account must have:
-- roles/secretmanager.secretAccessor
-- roles/artifactregistry.reader
-
-Add these in IAM or in the VM details page.
-
-Also make sure `gcloud` is installed on the VM.
-If not, install it in the VM (Cloud Shell or `sudo apt-get install google-cloud-cli`).
-
-## Step 5: Create the production .env in Secret Manager
-
-The workflow reads secret `portfolio-cv` and writes it to `/opt/APP_NAME/secure-docker-setup/.env`.
-Do not commit real secrets into git.
-
-Minimal example:
-```
-VITE_APP_TITLE=Boris - Renaissance Fintech Visionary
-VITE_APP_DESCRIPTION=Boris's Renaissance-inspired fintech portfolio
-VITE_BASE_URL=/
-VITE_MAX_FILE_SIZE_MB=50
-VITE_UPLOAD_ENABLED=true
-VITE_SUBSCRIBE_ENDPOINT=https://your-endpoint-here
-VITE_INSTALLER_PATH=/installers/RS-Waybill-MCP-Setup.exe
-NODE_ENV=production
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$DEPLOYER_EMAIL" \
+  --role="roles/artifactregistry.writer"
 ```
 
-Update the secret:
-```
-gcloud secrets versions add portfolio-cv \
-  --project tastyapp-ff8b2 \
-  --data-file .env
-```
+Create keyless GitHub authentication:
 
-## Step 6: GitHub repo secrets (required)
+```bash
+gcloud iam workload-identity-pools create "$POOL_ID" \
+  --project="$PROJECT_ID" \
+  --location=global \
+  --display-name="GitHub Actions"
 
-Set these in GitHub:
-- GCP_SA_KEY
-- GCP_PROJECT_ID: tastyapp-ff8b2
-- AR_REGION: us-central1
-- AR_REPO_NAME: portfolio
-- VM_HOST: 34.136.155.111
-- VM_SSH_USER: borissolomonia
-- VM_SSH_KEY: private SSH key content
-- APP_NAME: optional (default Portfolio_Boris)
+gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_ID" \
+  --project="$PROJECT_ID" \
+  --location=global \
+  --workload-identity-pool="$POOL_ID" \
+  --display-name="GitHub Boris portfolio" \
+  --issuer-uri="https://token.actions.githubusercontent.com" \
+  --attribute-mapping="google.subject=assertion.sub,attribute.repository=assertion.repository,attribute.ref=assertion.ref" \
+  --attribute-condition="assertion.repository=='$REPOSITORY'"
 
-Note: the workflow reads these from Secrets, not Variables.
-
-## Step 7: SSH key for GitHub Actions
-
-You can create the key on Windows (simple) or on the VM.
-Either way, GitHub needs the private key and the VM needs the public key.
-
-Windows (PowerShell):
-```
-ssh-keygen -t ed25519 -f "C:\\Users\\Admin\\.ssh\\gh_portfolio_vm" -C "gh-actions-portfolio"
-```
-Press Enter twice for no passphrase.
-
-Add the public key to the VM:
-```
-mkdir -p ~/.ssh
-chmod 700 ~/.ssh
-echo "ssh-ed25519 AAAA... gh-actions-portfolio" >> ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
+gcloud iam service-accounts add-iam-policy-binding "$DEPLOYER_EMAIL" \
+  --project="$PROJECT_ID" \
+  --role="roles/iam.workloadIdentityUser" \
+  --member="principalSet://iam.googleapis.com/projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/attribute.repository/$REPOSITORY"
 ```
 
-Put the private key content into GitHub secret `VM_SSH_KEY`:
+Print the two GitHub values:
+
+```bash
+echo "GCP_DEPLOY_SERVICE_ACCOUNT=$DEPLOYER_EMAIL"
+echo "GCP_WORKLOAD_IDENTITY_PROVIDER=projects/$PROJECT_NUMBER/locations/global/workloadIdentityPools/$POOL_ID/providers/$PROVIDER_ID"
 ```
-Get-Content "C:\\Users\\Admin\\.ssh\\gh_portfolio_vm"
+
+The VM's attached service account needs read-only image access:
+
+```bash
+VM_SERVICE_ACCOUNT="$(gcloud compute instances describe instance-20251229-203034 --zone us-central1-c --format='value(serviceAccounts[0].email)')"
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+  --member="serviceAccount:$VM_SERVICE_ACCOUNT" \
+  --role="roles/artifactregistry.reader"
 ```
 
-Tip: Do not paste private keys in chat. Rotate keys if they leaked.
+## 5. One-time SSH key setup
 
-## Step 8: Caddy config (reverse proxy)
+### Create the key on Windows PowerShell
 
-The Caddyfile is mounted read-only inside the container.
-Edit the host file:
-`/home/borissolomonia/apps/tasty-erp/Caddyfile.production`
+Do not use `-N ""` in this PowerShell/OpenSSH combination. Run interactively and press Enter twice for an empty passphrase:
 
-Add this block at the end (keep the existing :80 block):
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.ssh"
+ssh-keygen -t ed25519 -f "$env:USERPROFILE\.ssh\gh_portfolio_vm" -C "gh-actions-portfolio"
+Get-Content "$env:USERPROFILE\.ssh\gh_portfolio_vm.pub"
 ```
+
+### Add the public key through OS Login
+
+On the VM, replace `PASTE_PUBLIC_KEY_HERE` with the complete one-line `.pub` value:
+
+```bash
+printf '%s\n' 'PASTE_PUBLIC_KEY_HERE' > /tmp/gh_portfolio_vm.pub
+gcloud compute os-login ssh-keys add \
+  --project=tastyapp-ff8b2 \
+  --key-file=/tmp/gh_portfolio_vm.pub
+rm /tmp/gh_portfolio_vm.pub
+```
+
+Never add the private key to the VM. The private key stays on Windows and in the protected GitHub secret.
+
+### Read the private key for GitHub
+
+```powershell
+Get-Content "$env:USERPROFILE\.ssh\gh_portfolio_vm" -Raw
+```
+
+Copy the entire value, including `BEGIN OPENSSH PRIVATE KEY` and `END OPENSSH PRIVATE KEY`.
+
+### Get the trusted VM host fingerprint
+
+Run this on the VM console itself, not from an untrusted network:
+
+```bash
+sudo ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+```
+
+Copy only the value beginning with `SHA256:`.
+
+## 6. GitHub Actions secrets
+
+Open GitHub repository **Settings → Secrets and variables → Actions → New repository secret** and create:
+
+| Secret | Value |
+| --- | --- |
+| `GCP_WORKLOAD_IDENTITY_PROVIDER` | Full `projects/.../providers/github` value printed in step 4 |
+| `GCP_DEPLOY_SERVICE_ACCOUNT` | `gha-portfolio-deployer@tastyapp-ff8b2.iam.gserviceaccount.com` |
+| `VM_HOST` | `34.136.155.111` |
+| `VM_SSH_USER` | `borissolomonia` |
+| `VM_SSH_KEY` | Complete private OpenSSH key from step 5 |
+| `VM_HOST_FINGERPRINT` | Trusted `SHA256:...` fingerprint from the VM console |
+
+Do not create `GCP_SA_KEY`; the workflow intentionally uses short-lived Workload Identity credentials.
+
+## 7. One-time VM preparation
+
+The old workflow may already have created `/opt/Portfolio_Boris`. Confirm ownership:
+
+```bash
+sudo mkdir -p /opt/Portfolio_Boris/secure-docker-setup
+sudo chown -R borissolomonia:borissolomonia /opt/Portfolio_Boris
+docker network inspect web >/dev/null
+gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+```
+
+Confirm the SSH user can use Docker without `sudo`:
+
+```bash
+docker ps --format 'table {{.Names}}\t{{.Status}}'
+```
+
+## 8. One-time Caddy setup without stopping other apps
+
+The existing Caddyfile is bind-mounted read-only from the host. Edit the host file, never `/etc/caddy/Caddyfile` inside the container.
+
+Back it up:
+
+```bash
+sudo cp /home/borissolomonia/apps/tasty-erp/Caddyfile.production \
+  /home/borissolomonia/apps/tasty-erp/Caddyfile.production.bak.$(date +%F-%H%M%S)
+```
+
+The file must contain this additional site block at top level, after the existing `:80` block:
+
+```caddyfile
 borissolomonia.com, www.borissolomonia.com {
-  reverse_proxy portfolio-boris-app:80
+    encode zstd gzip
+    reverse_proxy portfolio-boris-app:80 {
+        health_uri /healthz
+        health_interval 30s
+        health_timeout 5s
+    }
 }
 ```
 
-Reload Caddy (safe, no downtime):
-```
+Validate before applying:
+
+```bash
 docker exec caddy caddy validate --config /etc/caddy/Caddyfile
+```
+
+Apply with a zero-downtime reload, not a restart:
+
+```bash
 docker exec caddy caddy reload --config /etc/caddy/Caddyfile
 ```
 
-## Step 9: Open HTTPS (port 443) in GCP firewall
+The current VM already validated and reloaded this domain block. Do not append it a second time.
 
-If HTTPS times out, 443 is blocked.
+## 9. Cloudflare and firewall
 
-Console method:
-1) GCP Console -> Compute Engine -> VM instances
-2) Click your VM -> Edit
-3) Network tags -> add `https-server`
-4) Save
-5) Create or update firewall rule:
-   - Ingress
-   - Target tag: https-server
-   - TCP 443
-   - Source: 0.0.0.0/0
+In Cloudflare DNS:
 
-CLI method:
-```
-gcloud compute firewall-rules create allow-https \
-  --project tastyapp-ff8b2 \
-  --direction=INGRESS \
-  --priority=1000 \
-  --network=default \
-  --action=ALLOW \
-  --rules=tcp:443 \
-  --source-ranges=0.0.0.0/0 \
-  --target-tags=https-server
+- `A` record `@` → `34.136.155.111`
+- `A` record `www` → `34.136.155.111`
+- Start with **DNS only** while Caddy obtains the certificate.
+- After HTTPS works, proxying may be enabled.
+- Set SSL/TLS mode to **Full (strict)**, never Flexible.
+
+In Google Cloud Console open **Compute Engine → VM instances → instance-20251229-203034 → Edit**. Under **Network tags**, add a tag such as `http-server` and `https-server`, then save. Ensure ingress firewall rules allow TCP `80` and `443` to those tags.
+
+Test from Windows:
+
+```powershell
+Resolve-DnsName borissolomonia.com
+Test-NetConnection borissolomonia.com -Port 80
+Test-NetConnection borissolomonia.com -Port 443
+curl.exe -I https://borissolomonia.com
 ```
 
-## Step 10: Cloudflare DNS
+Use `curl.exe`, not PowerShell's `curl` alias.
 
-Create A records:
-- @ -> 34.136.155.111
-- www -> 34.136.155.111
+## 10. Deploy
 
-Set them to DNS only until HTTPS works.
-SSL or TLS mode: Full or Full (strict). Never use Flexible.
+The workflow `.github/workflows/deploy.yml` runs on pushes to `main` or `master`, or manually from **GitHub → Actions → Deploy Portfolio → Run workflow**.
 
-## Step 11: Deploy (GitHub Actions)
+It performs these safe steps:
 
-Push to main or master.
-The workflow will:
-- Build and push the image
-- SSH to the VM
-- Create `/opt/Portfolio_Boris/` with `secure-docker-setup/`
-- Update `secure-docker-setup/docker-compose.yml`
-- Deploy container `portfolio-boris-app` on port 8090
-- Reload Caddy
+1. Installs dependencies and runs lint, tests, and production build.
+2. Authenticates to GCP without a stored JSON key.
+3. pushes one image tagged with the immutable Git commit SHA.
+4. Uploads only this app's Compose file.
+5. Pulls and recreates only `portfolio-boris-app`.
+6. Waits for `/healthz` and rolls back to the exact previous image if deployment fails.
+7. Does not stop, recreate, or reload Caddy or Tasty ERP.
 
-Optional local test:
-```
-./deploy-local.sh
-```
-
-## Step 12: Verify
+## 11. Verify after deployment
 
 On the VM:
-```
-curl -I http://localhost:8090
-curl -I -H "Host: borissolomonia.com" http://localhost
-```
 
-From your PC:
-```
-Test-NetConnection borissolomonia.com -Port 443
+```bash
+docker ps --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
+curl -fsS http://127.0.0.1:8090/healthz
+docker network inspect web | grep -A3 -B2 portfolio-boris-app
+curl -I -H 'Host: borissolomonia.com' http://127.0.0.1
 ```
 
-Expected: port 443 is open and https://borissolomonia.com loads.
+From Windows:
 
-## Step 13: Email collection (optional, pick one)
+```powershell
+curl.exe -I https://borissolomonia.com
+curl.exe -I https://www.borissolomonia.com
+```
 
-Option A: Google Forms (fast, no CORS)
-- Create a Google Form with an email field.
-- Get Form ID and entry ID.
-- Update EmailForm to post to Google Forms.
-- Emails go to the linked Sheet automatically.
+Expected results are healthy container status, `ok` from `/healthz`, HTTP-to-HTTPS redirect on port 80, and `200` over HTTPS.
 
-Option B: Google Apps Script (simple)
-- Create a Google Sheet.
-- Add Apps Script web app with "Anyone" access.
-- Set VITE_SUBSCRIBE_ENDPOINT to the web app URL.
-- Update Secret Manager and redeploy.
+## 12. Troubleshooting map
 
-Option C: Cloud Function (recommended, pro)
-- Create a service account.
-- Deploy function (gen2, nodejs20, allow unauth).
-- Share the Sheet with the service account.
-- Set VITE_SUBSCRIBE_ENDPOINT to the function URL.
-- Update Secret Manager and redeploy.
+### GitHub cannot list or push Artifact Registry
 
-If you skip email collection, the download still works.
+The active identity lacks `roles/artifactregistry.writer`, or the repository name is wrong. The correct repository is `portfolio` in `us-central1`.
 
-## Step 14: Common problems (from our chat)
+### GitHub cannot SSH
 
-- HTTPS timeout: open firewall 443 and add tag.
-- Caddy file read-only: edit host file and reload.
-- Wrong Caddy container name: it is `caddy`.
-- Artifact Registry permission denied: the GitHub SA is missing roles.
-- Secret Manager access denied on VM: VM service account lacks secret access.
-- Windows curl errors: use `curl.exe` or `Invoke-WebRequest`.
+Check the username, private key formatting, OS Login public key, port 22 firewall, and exact host fingerprint. A passphrase-protected key cannot be used unless the action is also configured with that passphrase.
 
-## Step 15: Keep other apps safe
+### VM cannot pull the image
 
-- Do not run `docker compose down` on the ERP stack.
-- Do not stop or restart Caddy; only reload.
-- Keep this app on port 8090.
-- Use the existing `web` docker network.
+Run:
 
-Done when https://borissolomonia.com loads without timeout.
+```bash
+gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+gcloud auth list
+docker pull us-central1-docker.pkg.dev/tastyapp-ff8b2/portfolio/portfolio-boris-app:COMMIT_SHA
+```
+
+Confirm the VM service account has `roles/artifactregistry.reader`.
+
+### HTTP redirects but HTTPS times out
+
+Caddy is reachable on port 80, but TCP 443 is blocked. Add the VM network tag targeted by the HTTPS firewall rule and retest with `Test-NetConnection`.
+
+### App works on port 8090 but domain returns 502
+
+Confirm both `caddy` and `portfolio-boris-app` are attached to network `web`, and that the Caddy upstream is exactly `portfolio-boris-app:80`.
+
+### PowerShell commands behave like Linux commands
+
+PowerShell uses backticks for continuation, not backslashes. Prefer one-line commands. Use `Select-String` instead of `grep`, and `curl.exe` instead of `curl`.
+
+## 13. Manual rollback
+
+GitHub automatically rolls back a failed health check. For a manual rollback, find the previous immutable image from GitHub Actions or `docker image ls`, then run only this app's service:
+
+```bash
+cd /opt/Portfolio_Boris
+IMAGE_URI='us-central1-docker.pkg.dev/tastyapp-ff8b2/portfolio/portfolio-boris-app:PREVIOUS_COMMIT_SHA' \
+  docker compose -f secure-docker-setup/docker-compose.yml \
+  up -d --no-deps --force-recreate --wait portfolio-boris-app
+```
+
+## 14. Local release checks
+
+```powershell
+npm ci
+npm run assets:build
+npm run lint
+npm test
+npm run build
+```
+
+Only run `npm run assets:build` after approved screenshots are placed in `assets/source-screenshots` and mapped in `config/portfolio-assets.json`.

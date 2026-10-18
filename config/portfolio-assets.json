@@ -1,0 +1,13 @@
+[
+  { "id": "rsge-banks", "source": "assets/source-screenshots/rsge-reconciliation.png", "alt": "RS.ge and supplier purchase reconciliation workspace" },
+  { "id": "bank-analytics", "source": "assets/source-screenshots/bank-analytics.png", "alt": "BOG and TBC bank movement analytics workspace" },
+  { "id": "delivery-analytics", "source": "assets/source-screenshots/delivery-analytics.png", "alt": "Delivery sales and bank income analytics workspace" },
+  { "id": "internal-analytics", "source": "assets/source-screenshots/internal-analytics.png", "alt": "Cash flow categorization and transfer tracking workspace" },
+  { "id": "nine-t-erp", "source": "assets/source-screenshots/nine-t-erp.png", "alt": "9T ERP secure financial analytics sign-in screen" },
+  { "id": "tasty-erp", "source": "assets/source-screenshots/tasty-erp.png", "alt": "Tasty ERP dashboard with waybill, VAT, sales, and payment controls" },
+  { "id": "optimo-sync", "source": "assets/source-screenshots/optimo-sync.png", "alt": "Optimo Sync dashboard showing marketplace synchronization status" },
+  { "id": "order-app", "source": "assets/source-screenshots/order-app.png", "alt": "Order App secure role-based ordering sign-in screen" },
+  { "id": "brooks-memory", "source": "assets/source-screenshots/brooks-memory.png", "alt": "AI-generated fictional courtyard at dusk, with a teal wooden balcony and warm copper light" },
+  { "id": "bachmann-today", "source": "assets/source-screenshots/bachmann-today.png", "alt": "BachmannLogi financial operations prototype, using fabricated demonstration data" },
+  { "id": "bachmann-cost-centres", "source": "assets/source-screenshots/bachmann-cost-centres.png", "alt": "BachmannLogi cost-centre comparison prototype with synthetic figures and data-availability markers" }
+]

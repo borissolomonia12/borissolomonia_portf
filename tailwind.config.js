@@ -1,44 +1,42 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {
       colors: {
-        'renaissance-gold': '#D4AF37',
-        'renaissance-blue': '#4F6D8E',
-        'renaissance-cream': '#F5F5DC',
-        'renaissance-brown': '#8B4513',
-        'renaissance-green': '#228B22',
+        'renaissance-gold': '#D8894D',
+        'renaissance-blue': '#2DB7A3',
+        'renaissance-cream': '#071819',
+        'renaissance-brown': '#EEFCF9',
+        'renaissance-green': '#54CDBB',
+        copper: '#D8894D',
+        teal: '#2DB7A3',
+        slate: {
+          100: '#EEFCF9', 200: '#D2E8E4', 400: '#91B7B3', 500: '#688F8B',
+          600: '#3D6662', 700: '#285052', 800: '#163334', 900: '#102829', 950: '#071819'
+        },
+        emerald: {
+          100: '#F8E1D0', 200: '#F0C3A0', 300: '#E7A56E', 400: '#D8894D', 800: '#7A3F19'
+        },
+        blue: {
+          300: '#76D9CA', 400: '#54CDBB', 500: '#2DB7A3', 600: '#1C8D7E', 800: '#105E56'
+        }
       },
       gridTemplateColumns: {
-        '20': 'repeat(20, minmax(0, 1fr))',
+        '20': 'repeat(20, minmax(0, 1fr))'
       },
       gridTemplateRows: {
-        '20': 'repeat(20, minmax(0, 1fr))',
+        '20': 'repeat(20, minmax(0, 1fr))'
       },
       fontFamily: {
-        'serif-elegant': ['Playfair Display', 'serif'],
-        'sans-elegant': ['Source Sans Pro', 'sans-serif'],
-      },
-      animation: {
-        'lyrical-float': 'lyrical-float 6s ease-in-out infinite',
-        'golden-flow': 'golden-flow 8s ease-in-out infinite',
-      },
-      keyframes: {
-        'lyrical-float': {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        'golden-flow': {
-          '0%, 100%': { transform: 'translateX(0px) rotate(0deg)' },
-          '33%': { transform: 'translateX(10px) rotate(2deg)' },
-          '66%': { transform: 'translateX(-5px) rotate(-1deg)' },
-        }
+        'serif-elegant': ['Manrope', 'sans-serif'],
+        'sans-elegant': ['Manrope', 'sans-serif'],
+        'data': ['IBM Plex Mono', 'monospace']
       }
-    },
+    }
   },
-  plugins: [],
+  plugins: []
 }

@@ -1,6 +1,3 @@
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-
 type Achievement = {
   title: string;
   org?: string;
@@ -109,7 +106,6 @@ const TIMELINE: TimelineYear[] = [
           "20+ engagements: valuation & FP&A models, driver trees, covenants.",
           "Executive dashboards & scenario analysis.",
         ],
-        metrics: ["NPV growth up", "ROI growth up", "Cost minimization down"],
       },
     ],
   },
@@ -131,7 +127,6 @@ const TIMELINE: TimelineYear[] = [
           "Coin-flow logic: mid-period sales, emissions timing, entitlements.",
           "Auditable scenario engine for fairness.",
         ],
-        metrics: ["Sales maximization up", "Cost minimization down"],
       },
     ],
   },
@@ -139,7 +134,7 @@ const TIMELINE: TimelineYear[] = [
     year: 2022,
     items: [
       {
-        title: "Java Junior Developer (Top 2 of 500)",
+        title: "Java Developer (Top 2 of 500)",
         org: "EPAM Systems",
         period: "2022",
         bullets: [
@@ -161,7 +156,6 @@ const TIMELINE: TimelineYear[] = [
           "Statistical sales forecasting; reduced fixed costs ~5%.",
           "Daily ops dashboard: inventory, debtor scoring, alerts.",
         ],
-        metrics: ["Stock minimization down", "Sales maximization up", "ROI growth up"],
       },
     ],
   },
@@ -191,52 +185,19 @@ const TIMELINE: TimelineYear[] = [
       },
     ],
   },
-  // Future Plans
-  {
-    year: 2025,
-    label: "PLANNED",
-    items: [
-      {
-        title: "AI-Powered ERP System",
-        org: "Develop an ERP / Brooks",
-        period: "2025",
-        bullets: [
-          "Join a large AI-focused organization to leverage hybrid finance + tech expertise, delivering value-driven AI solutions",
-          "Develop an ERP app integrating AI at key stages, connecting with government platforms",
-          "Advance Brooks - a geo-location social app where users leave notes, set future reminders, and share experiences tied to specific places",
-        ],
-        
-      },
-    ],
-  },
+  // Current direction confirmed in the portfolio interview, October 2026.
   {
     year: 2026,
-    label: "PLANNED",
+    label: "BUILDING",
     items: [
       {
-        title: "Expansion & Cross-Industry AI",
-        org: "AI Strategy Portfolio",
-        period: "2026",
+        title: "Financial manager & full-stack engineer",
+        org: "Building systems",
+        period: "Current direction",
         bullets: [
-          "Reuse modular AI frameworks across finance, logistics, healthcare, and education so every pilot looks like a template.",
-          "Bundle adoption roadmaps and governance memos that let executives greenlight the next rollout without a second meeting.",
-          "Focus on scalable, transferable AI frameworks that solve problems across sectors",
-        ],
-      },
-    ],
-  },
-  {
-    year: 2028,
-    label: "VISION",
-    items: [
-      {
-        title: "Next-Gen Education Platform",
-        org: "Future Skills Lab",
-        period: "2028",
-        bullets: [
-          "Launch an AI-guided, project-based platform where adaptive missions make relevance feel like the default.",
-          "Co-create journeys with educators and mentors so graduates show up boardroom-ready on day one.",
-          "Anchor problem solving, critical thinking, and feedback loops until employers treat the platform as their farm team.",
+          "9T ERP: reduce repetitive financial analysis and make source-to-figure review visible.",
+          "Optimo: connect operational systems and give synchronization outcomes a clear trail.",
+          "Brooks: explore nostalgia and people's emotional connection to meaningful places.",
         ],
       },
     ],
@@ -244,29 +205,22 @@ const TIMELINE: TimelineYear[] = [
 ];
 
 function TimelineItem({ year, isLast }: { year: TimelineYear; isLast: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.3, once: true });
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : undefined}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+    <div
       className="relative flex gap-6"
       data-year={year.year}
     >
       {/* Timeline line and dot */}
       <div className="flex flex-col items-center">
-        <div className={`w-4 h-4 rounded-full border-4 bg-white z-10 ${
+        <div className={`w-4 h-4 rounded-full border-4 bg-[#102829] z-10 ${
           year.label
             ? year.label === 'VISION'
-              ? 'border-purple-500'
-              : 'border-amber-500'
+              ? 'border-copper'
+              : 'border-teal'
             : 'border-blue-500'
         }`} />
         {!isLast && (
-          <div className="w-0.5 h-full bg-gray-200 mt-2" />
+          <div className="w-0.5 h-full bg-[#285052] mt-2" />
         )}
       </div>
 
@@ -274,12 +228,12 @@ function TimelineItem({ year, isLast }: { year: TimelineYear; isLast: boolean })
       <div className="flex-1 pb-12">
         {/* Year and label */}
         <div className="flex items-center gap-3 mb-4">
-          <h3 className="text-2xl font-bold text-gray-900">{year.year}</h3>
+          <h3 className="text-2xl font-bold text-[#eefcf9]">{year.year}</h3>
           {year.label && (
             <span className={`px-3 py-1 text-sm font-medium rounded-full ${
               year.label === 'VISION'
-                ? 'bg-purple-100 text-purple-700'
-                : 'bg-amber-100 text-amber-700'
+                ? 'bg-copper/15 text-[#e7a56e]'
+                : 'bg-teal/15 text-[#54cdbb]'
             }`}>
               {year.label}
             </span>
@@ -289,7 +243,7 @@ function TimelineItem({ year, isLast }: { year: TimelineYear; isLast: boolean })
         {/* Items */}
         <div className="space-y-4">
           {year.items.map((item, i) => (
-            <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+            <div key={i} className="bg-[#102829] rounded-lg border border-[#285052] p-4 shadow-sm">
               <div className="flex items-start gap-4">
                 {/* Organization Logo */}
                 {item.org && getOrgLogo(item.org) && (
@@ -308,21 +262,21 @@ function TimelineItem({ year, isLast }: { year: TimelineYear; isLast: boolean })
 
                 <div className="flex-1 min-w-0">
                   {/* Title and organization */}
-                  <div className="font-semibold text-gray-900 mb-1">
+                  <div className="font-semibold text-[#eefcf9] mb-1">
                     {item.title}
                   </div>
                   {item.org && (
-                    <div className="text-sm text-gray-600 mb-2">{item.org}</div>
+                    <div className="text-sm text-[#91b7b3] mb-2">{item.org}</div>
                   )}
                   {item.period && (
-                    <div className="text-xs text-gray-500 mb-3">{item.period}</div>
+                    <div className="text-xs text-[#688f8b] mb-3">{item.period}</div>
                   )}
 
                   {/* Metrics */}
                   {item.metrics && (
                     <div className="flex flex-wrap gap-2 mb-3">
                       {item.metrics.map((metric, j) => (
-                        <span key={j} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                        <span key={j} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-copper/15 text-[#e7a56e]">
                           {metric}
                         </span>
                       ))}
@@ -331,10 +285,10 @@ function TimelineItem({ year, isLast }: { year: TimelineYear; isLast: boolean })
 
                   {/* Bullets */}
                   {item.bullets && (
-                    <ul className="text-xs text-gray-700 space-y-1 mb-3">
+                    <ul className="text-xs text-[#d2e8e4] space-y-1 mb-3">
                       {item.bullets.map((bullet, k) => (
                         <li key={k} className="flex items-start gap-2">
-                          <span className="text-gray-400 mt-1 flex-shrink-0">-</span>
+                          <span className="text-[#688f8b] mt-1 flex-shrink-0">-</span>
                           <span>{bullet}</span>
                         </li>
                       ))}
@@ -348,7 +302,7 @@ function TimelineItem({ year, isLast }: { year: TimelineYear; isLast: boolean })
                         href={item.linkHref}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800 font-medium"
+                        className="inline-flex items-center text-sm text-teal hover:text-[#54cdbb] font-medium"
                       >
                         {item.linkLabel}
                         <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
@@ -363,7 +317,7 @@ function TimelineItem({ year, isLast }: { year: TimelineYear; isLast: boolean })
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -371,8 +325,8 @@ export default function CareerTimeline() {
   return (
     <section id="career-timeline" className="mx-auto max-w-4xl px-6 py-16">
       <div className="mb-12">
-        <h2 className="text-3xl font-semibold tracking-tight text-gray-900">Career Timeline</h2>
-        <p className="mt-3 text-lg text-gray-600">
+        <h2 className="text-3xl font-semibold tracking-tight text-[#eefcf9]">Career Timeline</h2>
+        <p className="mt-3 text-lg text-[#91b7b3]">
           A comprehensive overview of my professional journey and achievements.
         </p>
       </div>

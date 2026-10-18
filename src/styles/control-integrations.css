@@ -1,0 +1,11 @@
+.control-integrations{border-block:1px solid rgba(45,183,163,.24);background:linear-gradient(90deg,rgba(16,40,41,.9),rgba(7,24,25,.82))}
+.control-integrations__inner{display:grid;grid-template-columns:minmax(17rem,.8fr) minmax(0,1.2fr);gap:clamp(2rem,5vw,5rem);align-items:center;padding-block:1.5rem}
+.control-integrations .data-label{margin-bottom:.35rem}
+.control-integrations h2{margin:0;color:var(--ink);font-size:clamp(1.25rem,2.3vw,1.8rem);letter-spacing:-.025em;line-height:1.15}
+.control-integrations p:not(.data-label){max-width:34rem;margin:.6rem 0 0;color:var(--muted);font-size:.76rem;line-height:1.65}
+.control-integrations__logos{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.55rem}
+.control-integrations__logos .integration-badge{justify-content:center;min-width:0;min-height:3.4rem;border-color:rgba(145,183,179,.25);padding:.5rem .65rem;background:rgba(7,24,25,.72);font-size:.7rem}
+.control-integrations__logos .integration-badge img{width:min(4.5rem,60%);height:1.55rem}
+.control-integrations__logos .integration-badge:hover{border-color:var(--copper);background:rgba(22,51,52,.92)}
+@media(max-width:900px){.control-integrations__inner{grid-template-columns:1fr}.control-integrations__logos{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:540px){.control-integrations__logos{grid-template-columns:repeat(2,minmax(0,1fr))}.control-integrations__logos .integration-badge:last-child{grid-column:1/-1}}

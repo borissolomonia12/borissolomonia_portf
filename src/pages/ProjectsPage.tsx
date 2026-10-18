@@ -1,158 +1,35 @@
-import { motion } from 'framer-motion'
-import ProjectCard from '../components/ProjectCard'
-import DynamicFinanceSection from '../components/DynamicFinanceSection'
+import { Link } from '../routing'
+import IntegrationBadge from '../components/IntegrationBadge'
+import ClientsSection from '../components/ClientsSection'
+import { systemModules, systemProducts } from '../data/portfolio'
 
-const ProjectsPage = () => {
-  const techProjects = [
-    {
-      id: 1,
-      title: 'Georgia Car Rental Platform',
-      subtitle: 'Explore Georgia Your Way',
-      description: 'Premium car rental service platform for discovering the beauty of Georgia. From city adventures to mountain escapes, providing the perfect vehicle for every journey.',
-      challenge: 'Tourism industry needed a modern, user-friendly platform for car rentals with comprehensive coverage of Georgian destinations.',
-      process: 'Developed a full-stack web application with intuitive booking system, vehicle management, and tourist destination integration.',
-      solution: 'Beautiful, responsive platform featuring cars, tourist places, regions, and travel information with integrated Georgian music experience.',
-      impact: [
-        'Streamlined car rental process',
-        'Enhanced tourism experience',
-        'Integrated travel information',
-        'Multi-language support'
-      ],
-      emoji: 'CR',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Responsive Design', 'Travel APIs'],
-      lessons: 'Great UX in travel platforms directly translates to customer satisfaction and business growth.',
-      type: 'tech',
-      coverImage: '/projects/covers/geolander.png',
-      demoUrl: 'https://ornate-dragon-82e353.netlify.app/'
-    },
-    {
-      id: 2,
-      title: 'Enterprise Resource Planning System',
-      subtitle: 'Complete Business Management',
-      description: 'Comprehensive ERP application managing financial data, transactions, and business operations with real-time reporting and analytics dashboard.',
-      challenge: 'Businesses needed unified system to manage complex financial operations, reporting, and multi-currency transactions efficiently.',
-      process: 'Built scalable ERP system with modular architecture supporting financial management, reporting, and business intelligence.',
-      solution: 'Full-featured ERP with dashboard analytics, transaction management, multi-language support, and comprehensive reporting tools.',
-      impact: [
-        'GEL 51,400+ in managed transactions',
-        'Multi-currency support (GEL 28,737)',
-        'Real-time financial analytics',
-        'Streamlined business operations'
-      ],
-      emoji: 'ERP',
-      technologies: ['React', 'Node.js', 'PostgreSQL', 'Chart.js', 'REST APIs'],
-      lessons: 'Enterprise systems require robust architecture and intuitive interfaces to handle complex business workflows.',
-      type: 'tech',
-      coverImage: '/projects/covers/ERP.png',
-      demoUrl: 'http://35.209.56.146/'
-    },
-    {
-      id: 3,
-      title: 'GirchiFin Data Processor',
-      subtitle: 'Financial Data Transformation',
-      description: 'Python-based financial data processing system that handles transaction mapping and automated file processing for financial analysis.',
-      challenge: 'Complex financial data needed systematic processing and transaction mapping for analysis and reporting.',
-      process: 'Built modular Python system with separate processing pipelines for different data types and formats.',
-      solution: 'Automated data transformation with configurable mapping rules and batch processing capabilities.',
-      impact: [
-        'Automated financial data processing',
-        'Configurable transaction mapping',
-        'Batch processing capabilities',
-        'Modular, maintainable codebase'
-      ],
-      emoji: 'DP',
-      technologies: ['Python', 'Data Processing', 'File I/O', 'Configuration Management'],
-      lessons: 'Modular design makes complex data processing manageable and scalable.',
-      type: 'tech',
-      coverImage: '/projects/covers/data-processor.jpg',
-      githubUrl: 'https://github.com/BorisSolomonia/GirchiFin'
-    },
-    {
-      id: 4,
-      title: 'Brooks Frontend Application',
-      subtitle: 'Modern Web Interface',
-      description: 'Advanced frontend application showcasing modern web development practices with responsive design and optimized user experience.',
-      challenge: 'Creating a sophisticated frontend interface with modern design patterns and optimal performance.',
-      process: 'Implemented using contemporary frontend frameworks with focus on user experience and code maintainability.',
-      solution: 'Responsive, accessible web application with clean architecture and modern UI patterns.',
-      impact: [
-        'Enhanced user experience',
-        'Responsive across all devices',
-        'Modern development practices',
-        'Maintainable codebase'
-      ],
-      emoji: 'BF',
-      technologies: ['Frontend Frameworks', 'Responsive Design', 'Modern CSS', 'JavaScript'],
-      lessons: 'Good frontend architecture creates lasting value for both users and developers.',
-      type: 'tech',
-      coverImage: '/projects/covers/brooks-frontend.jpg',
-      githubUrl: 'https://github.com/BorisSolomonia/brooks-new-front'
-    },
-    {
-      id: 5,
-      title: 'Greenscape.ge',
-      subtitle: 'Landscaping Services Website',
-      description: 'Public website for a landscaping company showcasing services, projects, and contact information.',
-      challenge: 'Create a clean, trustworthy online presence that clearly presents services and drives inquiries.',
-      process: 'Designed and implemented a responsive, fast-loading site with clear navigation and contact CTAs.',
-      solution: 'Simple, mobile-first layout with service highlights, visuals, and easy ways to get in touch.',
-      impact: [
-        'Improved online credibility',
-        'Responsive across devices',
-        'SEO-friendly structure'
-      ],
-      emoji: 'GS',
-      technologies: ['HTML', 'CSS', 'JavaScript', 'Responsive Design'],
-      lessons: 'Clarity and speed matter most for small-business websites.',
-      type: 'tech',
-      demoUrl: 'https://greenscape.ge'
-    }
-  ]
-
-  return (
-    <div className="min-h-screen pt-20">
-      <section className="py-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2 }}
-            className="text-center mb-16"
-          >
-            <p className="text-lg text-renaissance-blue mb-4 font-medium">
-              This page is a project too. It runs on the same system thinking I deliver for clients.
-            </p>
-            <h1 className="text-5xl md:text-6xl font-serif-elegant text-renaissance-brown mb-6">
-              My Work
-            </h1>
-            <p className="text-xl text-renaissance-brown/70 max-w-3xl mx-auto leading-relaxed">
-              Real projects. Real results. Complex problems made simple.
-            </p>
-          </motion.div>
-
-          {/* Tech Projects Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mb-20"
-          >
-            <h2 className="text-3xl font-serif-elegant text-renaissance-brown mb-8 text-center">
-              Technology Projects
-            </h2>
-            <div className="space-y-16">
-              {techProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Finance Projects Section - Dynamic */}
-          <DynamicFinanceSection />
-        </div>
-      </section>
-    </div>
-  )
+const architectureFlows: Record<string, string[]> = {
+  'waybill-mcp': ['AI client', 'MCP tools', 'SOAP adapter', 'RS.ge waybills'],
+  'ai-booking': ['Telegram screenshot', 'Vision extraction', 'Google Sheets', 'Document output']
 }
+
+const ProductVisual = ({ product }: { product: (typeof systemProducts)[number] }) => {
+  if (product.id === 'order-app') return <div className="product-card__visual order-workflow"><span className="exhibit-eyebrow">Order App / workflow overview</span><div><span>01</span>Choose customer & location</div><div><span>02</span>Assemble the order</div><div><span>03</span>Inspect send status & export</div><p>A structured ordering workflow. This overview is not a connected demo.</p></div>
+  if (product.visualType === 'architecture') {
+    const nodes = architectureFlows[product.id] ?? ['Input', 'Control layer', 'Verified output']
+    return <figure className="architecture-visual" aria-label={`${product.name} architecture visual`}><figcaption>{product.name} architecture visual / no browser dashboard</figcaption><div>{nodes.map((node, index) => <span className="architecture-step" key={node}>{node}{index < nodes.length - 1 && <i aria-hidden="true">{String.fromCharCode(8594)}</i>}</span>)}</div>{product.id === 'waybill-mcp' && <div className="architecture-visual__integration"><IntegrationBadge id="rsge" compact /></div>}<p>{product.id === 'waybill-mcp' ? 'Validated requests / explicit tool boundaries / traceable responses' : 'Screenshot intake / structured booking / document generation'}</p></figure>
+  }
+  if (!product.asset) return null
+  return <figure className="product-card__visual"><div className="product-card__bar"><span>{product.name} project screen</span><span>{product.id === 'bachmann' ? 'Design prototype · fabricated figures' : product.id === 'nine-t-erp' ? 'Secure sign-in · no financial data' : 'Synthetic or non-sensitive data'}</span></div><img src={product.asset.src} alt={product.asset.alt} width={product.asset.width} height={product.asset.height} loading="lazy" decoding="async" data-project-screen={product.id} /></figure>
+}
+
+const ProjectsPage = () => (
+  <div className="systems-page systems-page--enhanced">
+    <header className="systems-hero sales-shell"><p className="data-label">My Systems / selected work & supporting projects</p><h1>My systems. Financial clarity, connected operations, a sense of place.</h1><p>Start with three interactive examples, then explore the wider systems behind my finance and engineering work.</p><div className="systems-hero__legend"><span><i className="domain-dot domain-dot--operations" />Operations</span><span><i className="domain-dot domain-dot--control" />Control</span><span><i className="domain-dot domain-dot--finance" />Finance</span><span><i className="domain-dot domain-dot--intelligence" />Intelligence</span></div></header>
+
+    <div className="sales-shell"><nav className="selected-project-index" aria-label="Explore featured project demonstrations"><Link to="/#nine-t-erp"><span className="exhibit-eyebrow">Financial intelligence</span><strong>9T ERP</strong><p>Follow a figure from statement to source and a review decision.</p><span>Explore the example ↗</span></Link><Link to="/#optimo"><span className="exhibit-eyebrow">Operational automation</span><strong>Optimo</strong><p>Preview a stock update and investigate what reaches each destination.</p><span>Try the sync example ↗</span></Link><Link to="/#brooks"><span className="exhibit-eyebrow">Place & memory</span><strong>Brooks</strong><p>A memory from someone important, waiting at a meaningful place.</p><span>Open the invitation ↗</span></Link></nav><details className="systems-architecture"><summary>Explore the financial architecture · nine business domains</summary><div><div className="erp-map"><div className="erp-map__core"><span>CONTROL CORE</span><strong>Validate / map / reconcile</strong><p>One traceable operating model</p></div>{systemModules.map((module, index) => <article key={module.id} className={`erp-module erp-module--${module.domain}`} data-module-id={module.id}><span>{String(index + 1).padStart(2,'0')}</span><h3>{module.title}</h3><p>{module.description}</p></article>)}</div></div></details></div>
+
+    <section className="product-section sales-shell" aria-labelledby="products-title"><div className="section-heading section-heading--split"><div><p className="data-label">My product ecosystem</p><h2 id="products-title">The systems behind the work.</h2></div><p>Financial applications, integration services, and guided workflows. Examples, screenshots, and architecture views are labeled for what they show.</p></div><div className="product-grid">{systemProducts.map((product, index) => <article className="product-card" key={product.id} data-product-id={product.id}><div className="product-card__copy"><div className="product-card__number"><span>{String(index + 1).padStart(2,'0')}</span><span>{product.category}</span></div><h3>{product.name}</h3><p>{product.summary}</p>{product.integrations.length > 0 && <div className="product-card__brands" aria-label={`${product.name} integrations`}>{product.integrations.map((id) => <IntegrationBadge id={id} compact key={id} />)}</div>}<ul>{product.capabilities.map((capability) => <li key={capability}>{capability}</li>)}</ul>{(product.id === 'nine-t-erp' || product.id === 'optimo-sync') && <Link className="inline-link" to={product.id === 'nine-t-erp' ? '/#nine-t-erp' : '/#optimo'}>Try the interactive example ↗</Link>}</div><ProductVisual product={product} /></article>)}</div></section>
+
+    <ClientsSection />
+
+    <section className="systems-cta sales-shell"><div><p className="data-label">The next system</p><h2>Building systems with financial judgment.</h2></div><Link className="button-primary" to="/contact">Discuss a role</Link></section>
+  </div>
+)
 
 export default ProjectsPage

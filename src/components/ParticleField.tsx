@@ -47,7 +47,7 @@ const ParticleField = ({ mouseX, mouseY, isHovered }: ParticleFieldProps) => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const colors = ['#3B82F6', '#1D4ED8', '#2563EB', '#1E40AF']
+    const colors = ['#D8894D', '#E7A56E', '#2DB7A3', '#54CDBB']
     
     const createParticle = (x?: number, y?: number): Particle => ({
       x: x ?? Math.random() * dimensions.width,
@@ -155,7 +155,7 @@ const ParticleField = ({ mouseX, mouseY, isHovered }: ParticleFieldProps) => {
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
       style={{ 
-        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(29, 78, 216, 0.05) 100%)'
+        background: 'linear-gradient(135deg, rgba(216, 137, 77, 0.04) 0%, rgba(45, 183, 163, 0.05) 100%)'
       }}
     />
   )

@@ -1,222 +1,127 @@
-import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+﻿import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { Link, useLocation } from '../routing'
 
 const navItems = [
-  {
-    path: '/',
-    label: 'Home',
-    icon: (className: string) => (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l9-9 9 9" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4h2v4a1 1 0 001 1h4a1 1 0 001-1V10" />
-      </svg>
-    )
-  },
-  {
-    path: '/work',
-    label: 'Achievements',
-    icon: (className: string) => (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V6a2 2 0 012-2h4a2 2 0 012 2v1" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 9h16v9a2 2 0 01-2 2H6a2 2 0 01-2-2V9z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2" />
-      </svg>
-    )
-  },
-  {
-    path: '/projects',
-    label: 'Projects',
-    icon: (className: string) => (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
-      </svg>
-    )
-  },
-  {
-    path: '/education',
-    label: 'Education',
-    icon: (className: string) => (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3l9 5-9 5-9-5 9-5z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10v4a2 2 0 001 1.732l6 3.268 6-3.268A2 2 0 0019 14v-4" />
-      </svg>
-    )
-  },
-  {
-    path: '/contact',
-    label: 'Contact',
-    icon: (className: string) => (
-      <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M22 8l-10 7L2 8" />
-      </svg>
-    )
-  }
+  { path: '/', label: 'Home' },
+  { path: '/projects', label: 'My Systems' },
+  { path: '/#technical-skills', label: 'Skills' },
+  { path: '/work', label: 'Experience' },
+  { path: '/education', label: 'Education' },
+  { path: '/contact', label: 'Contact' }
 ]
 
 const Navigation = () => {
   const location = useLocation()
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const reducedMotion = useReducedMotion()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     setIsMenuOpen(false)
-  }, [location.pathname])
+  }, [location.pathname, location.hash])
 
   useEffect(() => {
     if (!isMenuOpen) return
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsMenuOpen(false)
-      }
+      if (event.key === 'Escape') setIsMenuOpen(false)
     }
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isMenuOpen])
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
-      return
-    }
-
-    const updateScrollState = () => {
-      const currentScroll = window.scrollY
-      setIsScrolled(currentScroll > 50)
-
-      const doc = document.documentElement
-      const maxScroll = doc.scrollHeight - window.innerHeight
-      const rawProgress = maxScroll > 0 ? (currentScroll / maxScroll) * 100 : 0
-      const nextProgress = Math.min(Math.max(rawProgress, 0), 100)
-
-      setScrollProgress((prev) => (Math.abs(prev - nextProgress) > 0.5 ? nextProgress : prev))
-    }
-
-    updateScrollState()
-    window.addEventListener('scroll', updateScrollState, { passive: true })
-
-    return () => window.removeEventListener('scroll', updateScrollState)
-  }, [])
-
-  const renderNavLink = (item: typeof navItems[number], isMobile = false) => {
-    const isActive = location.pathname === item.path
-    const baseClass = isMobile
-      ? 'flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold transition-colors'
-      : 'relative px-4 py-2 rounded-full transition-colors'
-
+  const navLink = (path: string, label: string, mobile = false) => {
+    const active = path.includes('#')
+      ? `${location.pathname}${location.hash}` === path
+      : location.pathname === path
     return (
       <Link
-        key={item.path}
-        to={item.path}
-        className={`${baseClass} ${
-          isActive
-            ? 'bg-renaissance-gold/20 text-renaissance-brown'
-            : 'text-renaissance-brown/70 hover:text-renaissance-brown hover:bg-renaissance-gold/10'
-        }`}
-        onClick={() => setIsMenuOpen(false)}
+        key={path}
+        to={path}
+        aria-current={active ? 'page' : undefined}
+        className={
+          (mobile ? 'block rounded-lg px-4 py-3 ' : 'rounded-md px-3 py-2 ') +
+          'font-data text-xs uppercase tracking-[0.11em] transition-colors ' +
+          (active
+            ? 'bg-emerald-400/10 text-emerald-300'
+            : 'text-slate-400 hover:bg-slate-800/70 hover:text-white')
+        }
       >
-        <span className="flex items-center gap-2">
-          {item.icon('w-4 h-4')}
-          <span className="font-sans-elegant">{item.label}</span>
-        </span>
-        {!isMobile && isActive && (
-          <motion.span
-            className="absolute -bottom-2 left-3 right-3 h-0.5 bg-renaissance-gold"
-            layoutId="activeTab"
-            initial={false}
-            transition={{ duration: 0.3 }}
-          />
-        )}
+        {label}
       </Link>
     )
   }
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-renaissance-cream/95 backdrop-blur-md shadow-lg border-b border-renaissance-gold/10'
-          : 'bg-transparent'
-      }`}
-      role="navigation"
+      initial={reducedMotion ? false : { y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.45 }}
+      className="fixed inset-x-0 top-0 z-50 border-b border-slate-800/80 bg-slate-950/82 backdrop-blur-xl"
       aria-label="Main navigation"
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center h-16">
-          <Link to="/" className="block">
-            <motion.div whileHover={{ scale: 1.03 }} className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-renaissance-gold/20 text-renaissance-brown flex items-center justify-center text-sm font-semibold">
-                BS
-              </div>
-              <div className="leading-tight">
-                <div className="text-base font-serif-elegant text-renaissance-brown">Boris Solomonia</div>
-                <div className="text-xs text-renaissance-blue/70">Finance systems and product strategy</div>
-              </div>
-            </motion.div>
-          </Link>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6">
+        <Link to="/" className="group flex min-w-0 items-center gap-3" aria-label="Boris Solomonia home">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg border border-emerald-400/30 bg-emerald-400/10 font-data text-xs font-bold text-emerald-300">
+            BS
+          </span>
+          <span className="min-w-0 leading-tight">
+            <strong className="block truncate text-sm font-bold text-slate-100">Boris Solomonia</strong>
+            <span className="block truncate font-data text-[10px] uppercase tracking-[0.12em] text-slate-500">
+              Finance + engineering
+            </span>
+          </span>
+        </Link>
 
-          {/* Desktop navigation */}
-          <div className="hidden md:flex items-center gap-2">
-            {navItems.map((item) => renderNavLink(item))}
-            <Link
-              to="/contact"
-              className="ml-3 px-4 py-2 rounded-full bg-renaissance-brown text-renaissance-cream text-sm font-semibold hover:bg-renaissance-gold transition-colors"
-            >
-              Book a Call
-            </Link>
-          </div>
-
-          {/* Mobile menu */}
-          <button
-            className="md:hidden p-2 text-renaissance-brown"
-            onClick={() => setIsMenuOpen((prev) => !prev)}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
+        <div className="hidden items-center gap-1 lg:flex">
+          {navItems.map((item) => navLink(item.path, item.label))}
+          <Link
+            to="/contact"
+            className="ml-3 rounded-lg border border-emerald-400 bg-emerald-400 px-4 py-2 text-xs font-extrabold text-slate-950 transition-colors hover:bg-emerald-300"
           >
-            <div className="w-6 h-6 flex flex-col justify-center space-y-1">
-              <span className={`h-0.5 w-6 bg-current rounded transition-transform ${isMenuOpen ? 'translate-y-2 rotate-45' : ''}`}></span>
-              <span className={`h-0.5 w-6 bg-current rounded transition-opacity ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-              <span className={`h-0.5 w-6 bg-current rounded transition-transform ${isMenuOpen ? '-translate-y-2 -rotate-45' : ''}`}></span>
-            </div>
-          </button>
+            Discuss a role
+          </Link>
         </div>
+
+        <button
+          type="button"
+          className="grid h-11 w-11 place-items-center rounded-lg border border-slate-700 text-slate-200 lg:hidden"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
+        >
+          <span className="sr-only">{isMenuOpen ? 'Close menu' : 'Open menu'}</span>
+          <span aria-hidden="true" className="space-y-1.5">
+            <span className={'block h-px w-5 bg-current transition-transform ' + (isMenuOpen ? 'translate-y-[7px] rotate-45' : '')} />
+            <span className={'block h-px w-5 bg-current transition-opacity ' + (isMenuOpen ? 'opacity-0' : '')} />
+            <span className={'block h-px w-5 bg-current transition-transform ' + (isMenuOpen ? '-translate-y-[7px] -rotate-45' : '')} />
+          </span>
+        </button>
       </div>
 
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             id="mobile-menu"
-            initial={{ opacity: 0, y: -10 }}
+            initial={reducedMotion ? false : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden bg-renaissance-cream/95 backdrop-blur-md border-t border-renaissance-gold/10"
+            exit={reducedMotion ? undefined : { opacity: 0, y: -8 }}
+            className="border-t border-slate-800 bg-slate-950 px-4 py-4 lg:hidden"
           >
-            <div className="px-6 py-4 space-y-2">
-              {navItems.map((item) => renderNavLink(item, true))}
+            <div className="space-y-1">
+              {navItems.map((item) => navLink(item.path, item.label, true))}
               <Link
                 to="/contact"
-                className="block text-center px-4 py-3 rounded-xl bg-renaissance-brown text-renaissance-cream font-semibold hover:bg-renaissance-gold transition-colors"
+                className="mt-3 block rounded-lg bg-emerald-400 px-4 py-3 text-center text-sm font-extrabold text-slate-950"
               >
-                Book a Call
+                Discuss a role
               </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Floating progress indicator */}
-      <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-renaissance-gold via-renaissance-blue to-renaissance-green"
-        style={{ width: `${scrollProgress}%` }}
-        animate={{ opacity: isScrolled ? 1 : 0 }}
-      />
     </motion.nav>
   )
 }

@@ -1,0 +1,111 @@
+/* The existing identity, with real screens and a connected implementation map. */
+.portfolio-home .sales-hero__intro { grid-template-columns:minmax(0,1.15fr) minmax(23rem,1fr); gap:clamp(2rem,4vw,4rem); }
+.portfolio-home .sales-hero__copy h1 { font-size:clamp(3.2rem,5.7vw,5.35rem); }
+.project-screens { overflow:hidden; border:1px solid rgba(216,137,77,.36); border-radius:.9rem; background:var(--slate-deep); box-shadow:0 24px 85px rgba(0,0,0,.25); }
+.screen-collection-header { display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; padding:1rem 1.1rem; border-bottom:1px solid var(--line); color:var(--muted); font:500 .61rem/1.5 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.06em; }
+.screen-collection-header>span:last-child { color:var(--copper-bright); }
+.screen-picker { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+.screen-picker button { display:grid; gap:.2rem; min-height:3.8rem; padding:.8rem 1rem; border:0; border-right:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--panel); color:var(--muted); text-align:left; cursor:pointer; }
+.screen-picker button:nth-child(even) { border-right:0; }
+.screen-picker button[aria-selected="true"] { background:var(--panel-raised); box-shadow:inset 3px 0 var(--copper); color:var(--ink); }
+.screen-picker button:hover { color:var(--ink); background:var(--panel-raised); }
+.screen-picker button>span { font-size:.85rem; font-weight:650; }
+.screen-picker small { color:var(--muted-deep); font:400 .57rem/1.4 'IBM Plex Mono',monospace; text-transform:uppercase; }
+.screen-preview { position:relative; display:block; width:100%; padding:1rem; border:0; background:radial-gradient(ellipse at top right,rgba(45,183,163,.16),transparent 70%),var(--slate-deep); cursor:zoom-in; }
+.screen-preview img { display:block; width:100%; aspect-ratio:1.6; height:auto; object-fit:cover; object-position:top; border:1px solid var(--line); border-radius:.35rem; box-shadow:0 12px 35px rgba(0,0,0,.25); }
+.screen-preview>span { position:absolute; right:1.6rem; bottom:1.6rem; display:flex; gap:.8rem; padding:.45rem .6rem; border:1px solid var(--line); border-radius:.3rem; background:var(--slate-deep); color:var(--ink-soft); font:500 .58rem/1.4 'IBM Plex Mono',monospace; }
+.screen-caption { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:.3rem 1.1rem 1.2rem; }
+.screen-caption>div { display:grid; gap:.35rem; min-width:0; }
+.screen-caption strong { color:var(--ink-soft); font-size:.8rem; }
+.screen-caption span { color:var(--muted); font:400 .58rem/1.6 'IBM Plex Mono',monospace; }
+.screen-caption a { flex-shrink:0; color:var(--copper-bright); font-size:.73rem; font-weight:650; }
+.screen-dialog { width:min(94vw,90rem); max-width:none; max-height:92dvh; padding:0; border:1px solid var(--line); border-radius:.8rem; background:var(--slate-deep); color:var(--ink); }
+.screen-dialog::backdrop { background:rgba(2,12,13,.88); backdrop-filter:blur(8px); }
+.screen-dialog-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1rem 1.5rem; border-bottom:1px solid var(--line); }
+.screen-dialog h2 { margin:0; font-size:1rem; }
+.screen-dialog p { margin:.4rem 0 0; color:var(--muted); font-size:.75rem; }
+.screen-dialog-header button { flex-shrink:0; min-height:2.75rem; border:1px solid var(--line); border-radius:.4rem; padding:.5rem .8rem; color:var(--ink); background:var(--panel-raised); font-size:.8rem; }
+.screen-dialog-image { max-height:68dvh; overflow:auto; background:var(--panel-solid); }
+.screen-dialog-image img { display:block; width:100%; height:auto; }
+.screen-dialog>p { padding:1rem 1.5rem; margin:0; }
+.screen-picker button:focus-visible,.screen-preview:focus-visible,.screen-caption a:focus-visible,.screen-dialog button:focus-visible { position:relative; z-index:2; outline:2px solid var(--copper-bright); outline-offset:-3px; }
+
+.implementation-network { padding-top:5rem; padding-bottom:2rem; scroll-margin-top:6rem; }
+.finance-flow--network { margin:2rem 0 0; }
+.finance-flow--network .finance-flow__header { align-items:center; flex-wrap:wrap; gap:.75rem; padding:1rem 1.5rem; }
+.finance-flow--network .finance-flow__services { position:relative; inset:auto; display:grid; grid-template-columns:1fr 1.7fr; gap:2rem; width:auto; margin:0; padding:1.5rem; border:0; border-bottom:1px solid var(--line); background:rgba(16,40,41,.35); }
+.finance-flow--network .finance-flow__services span { color:var(--copper-bright); font:500 .6rem/1.5 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.1em; }
+.finance-flow--network .finance-flow__services h3 { max-width:22ch; margin:.5rem 0 0; font-size:1.25rem; line-height:1.35; color:var(--ink-soft); }
+.finance-flow--network .finance-flow__services ul { display:grid; grid-template-columns:1fr 1fr; gap:.5rem 1.5rem; list-style:none; margin:0; padding:0; }
+.finance-flow--network .finance-flow__services li { position:relative; padding-left:.8rem; color:var(--muted); font-size:.73rem; line-height:1.6; }
+.finance-flow--network .finance-flow__services li::before { content:''; position:absolute; left:0; top:.6em; width:.25rem; height:.25rem; border-radius:50%; background:var(--teal); }
+.finance-flow__viewport { overflow-x:auto; overscroll-behavior-x:contain; scrollbar-color:var(--teal) var(--slate-deep); }
+.finance-flow__viewport:focus-visible { outline:2px solid var(--copper-bright); outline-offset:-3px; }
+.finance-flow--network .finance-flow__map { display:grid; position:relative; grid-template-columns:1fr 1.5fr 1fr 1fr; grid-template-rows:2rem repeat(3,minmax(7.4rem,auto)); grid-template-areas:'labels labels labels labels' 'client control rsge financial' 'client control banks financial' 'client control delivery big'; gap:1.25rem 3rem; align-items:center; min-width:58rem; min-height:0; padding:1.5rem; background-image:radial-gradient(rgba(145,183,179,.13) .7px,transparent .7px); background-size:16px 16px; }
+.flow-column-labels { grid-area:labels; display:grid; grid-template-columns:1fr 1.5fr 1fr 1fr; gap:3rem; color:var(--muted-deep); font:500 .56rem/1.5 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.05em; }
+.finance-flow--network .finance-flow__lines { display:block; position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.finance-flow--network .finance-flow__lines .flow-connection { fill:none; stroke:var(--teal); stroke-width:1.25; opacity:.65; stroke-dasharray:none; stroke-dashoffset:0; animation:none; }
+.finance-flow--network .finance-flow__lines .flow-arrow { fill:var(--teal); stroke:none; animation:none; }
+.finance-flow--network .flow-node { position:relative!important; z-index:1; inset:auto!important; width:auto!important; min-width:0; min-height:6.8rem; padding:1rem; border:1px solid var(--line); opacity:1; transform:none; animation:none; box-shadow:0 8px 30px rgba(0,0,0,.1); }
+.finance-flow--network .flow-node::after { content:none!important; }
+.finance-flow--network .flow-node strong { font-size:.9rem; line-height:1.35; }
+.finance-flow--network .flow-node>span:last-child { color:var(--muted); font-size:.73rem; line-height:1.6; }
+.finance-flow--network .flow-node__step { color:var(--muted-deep); font:500 .55rem/1.4 'IBM Plex Mono',monospace; text-transform:uppercase; }
+.finance-flow--network .flow-node--client-system { grid-area:client; border-left:2px solid var(--teal); }
+.finance-flow--network .flow-node--control-system { grid-area:control; border-color:var(--copper); background:var(--panel-solid); box-shadow:0 15px 65px rgba(216,137,77,.1); }
+.finance-flow--network .flow-node--rsge { grid-area:rsge; }
+.finance-flow--network .flow-node--banks { grid-area:banks; }
+.finance-flow--network .flow-node--delivery { grid-area:delivery; }
+.finance-flow--network .flow-node--financial-analysis { grid-area:financial; border-right:2px solid var(--copper); }
+.finance-flow--network .flow-node--big-data-analysis { grid-area:big; border-right:2px solid var(--teal); }
+.finance-flow--network .flow-node__capture { height:auto; aspect-ratio:1.6; object-fit:cover; margin:.3rem 0; }
+.flow-project-tags { display:flex; flex-wrap:wrap; gap:.35rem; margin:.35rem 0; }
+.flow-project-tags span { padding:.25rem .4rem; border:1px solid var(--line); border-radius:.25rem; color:var(--ink-soft); font:500 .56rem/1.4 'IBM Plex Mono',monospace; }
+.finance-flow--network .flow-node--control-system>small { font-size:.6rem; line-height:1.5; margin-top:.4rem; }
+.finance-flow--network .flow-map-caption { padding:0 1.5rem 1.25rem; max-width:70rem; }
+.network-pan-hint { display:none; margin:0; padding:.8rem 1.5rem 0; color:var(--muted); font:400 .64rem/1.6 'IBM Plex Mono',monospace; }
+.bachmann-study { overflow:hidden; border:1px solid var(--line); border-radius:.8rem; background:var(--slate-deep); }
+.bachmann-study figure { margin:0; padding:1.5rem; }
+.bachmann-study figure+figure { border-top:1px solid var(--line); }
+.bachmann-study img { display:block; width:100%; height:auto; max-height:40rem; object-fit:cover; object-position:top; border:1px solid var(--line); border-radius:.4rem; }
+.bachmann-study figcaption { display:grid; grid-template-columns:1fr 1.3fr; gap:1rem; padding:1rem 0 .25rem; }
+.bachmann-study figcaption strong { color:var(--ink-soft); font-size:.9rem; }
+.bachmann-study figcaption span { color:var(--muted); font-size:.78rem; line-height:1.7; }
+#bachmann { scroll-margin-top:6rem; }
+.systems-page--enhanced .product-card__visual img { min-height:0; height:auto; aspect-ratio:1.6; object-fit:cover; object-position:top; }
+@media(max-width:1100px) {
+  .portfolio-home .sales-hero__intro { grid-template-columns:minmax(0,1.1fr) minmax(20rem,1fr); gap:2rem; }
+  .portfolio-home .sales-hero__copy h1 { font-size:clamp(3rem,5.8vw,4.5rem); }
+  .finance-flow--network .finance-flow__map { gap:1.25rem 2rem; }
+  .flow-column-labels { gap:2rem; }
+  .network-pan-hint { display:block; }
+}
+@media(max-width:900px) {
+  .portfolio-home .sales-hero__intro { grid-template-columns:1fr; }
+  .portfolio-home .hero-evidence { display:block; max-width:42rem; width:100%; }
+  .portfolio-home .authority-card { margin-top:1.5rem; }
+  .portfolio-home .sales-hero__copy h1 { font-size:clamp(3rem,8vw,5.5rem); }
+  .finance-flow--network .finance-flow__services { grid-template-columns:1fr; gap:1rem; }
+  .finance-flow--network .finance-flow__services h3 { max-width:none; font-size:1.1rem; }
+  .finance-flow--network .flow-node__brands { flex-direction:row; }
+  .implementation-network { padding-top:3rem; }
+}
+@media(max-width:640px) {
+  .screen-collection-header { font-size:.55rem; padding:.9rem; }
+  .screen-picker button { padding:.75rem .9rem; }
+  .screen-picker button>span { font-size:.8rem; }
+  .screen-caption { padding:.3rem .9rem 1rem; }
+  .screen-caption strong { font-size:.73rem; }
+  .screen-caption span { font-size:.54rem; }
+  .screen-dialog-header { padding:1rem; align-items:flex-start; }
+  .screen-dialog h2 { font-size:.85rem; }
+  .screen-dialog-header button { font-size:.7rem; }
+  .finance-flow--network .finance-flow__header { padding:1rem; font-size:.56rem; }
+  .finance-flow--network .finance-flow__services { padding:1rem; }
+  .finance-flow--network .finance-flow__services ul { grid-template-columns:1fr; }
+  .finance-flow--network .finance-flow__map { min-width:54rem; padding:1rem; gap:1rem 2rem; }
+  .finance-flow--network .flow-map-caption { padding:0 1rem 1rem; font-size:.63rem; }
+  .network-pan-hint { padding-left:1rem; }
+  .bachmann-study figure { padding:.75rem; }
+  .bachmann-study figcaption { grid-template-columns:1fr; gap:.5rem; padding:.8rem .25rem; }
+}

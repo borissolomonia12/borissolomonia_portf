@@ -6,6 +6,7 @@ type EducationItem = {
   title: string
   institution: string
   details?: string
+  logo: { src: string; alt: string; width: number; height: number }
 }
 
 type Certification = {
@@ -21,12 +22,14 @@ const educationTimeline: EducationItem[] = [
     period: '2018',
     title: 'MBA - Business Administration & Operations Management',
     institution: 'Free University, Tbilisi, Georgia',
-    details: 'Recognized for Best Academic Achievement'
+    details: 'Recognized for Best Academic Achievement',
+    logo: { src: '/images/Free_logo_ENG.png', alt: 'Free University logo', width: 2819, height: 2894 }
   },
   {
     period: '2010',
     title: 'BBA - Financial Accounting and Audit',
-    institution: 'Caucasus University, Tbilisi, Georgia'
+    institution: 'Caucasus University, Tbilisi, Georgia',
+    logo: { src: '/images/CU-SiteLogo.png', alt: 'Caucasus University logo', width: 500, height: 500 }
   },
 ]
 
@@ -67,8 +70,8 @@ const EducationPage = () => {
               onClick={() => setActiveTab(tab)}
               className={`px-5 py-2 rounded-full border font-sans-elegant transition-colors ${
                 activeTab === tab
-                  ? 'bg-white text-renaissance-brown border-renaissance-gold'
-                  : 'bg-white/60 text-renaissance-brown/70 border-renaissance-gold/30 hover:bg-white'
+                  ? 'bg-[#163334] text-renaissance-brown border-renaissance-gold'
+                  : 'bg-[#102829]/70 text-renaissance-brown/70 border-renaissance-gold/30 hover:bg-[#163334]'
               }`}
             >
               {tab}
@@ -84,19 +87,24 @@ const EducationPage = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="bg-white/70 border border-renaissance-gold/20 rounded-3xl p-6 md:p-10 shadow"
+            className="bg-[#102829]/80 border border-renaissance-gold/20 rounded-3xl p-6 md:p-10 shadow"
           >
             <ol className="relative border-l border-renaissance-gold/30 ml-4">
               {educationTimeline.map((item, idx) => (
-                <li key={idx} className="mb-10 ml-6">
+                <li key={idx} className="mb-8 ml-6">
                   <span className="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-renaissance-gold/20 border border-renaissance-gold/40">
                     <span className="h-2.5 w-2.5 rounded-full bg-renaissance-gold"></span>
                   </span>
-                  <h3 className="text-lg font-serif-elegant text-renaissance-brown">{item.title}</h3>
-                  <div className="text-sm text-renaissance-brown/60 font-sans-elegant">{item.institution} - {item.period}</div>
-                  {item.details && (
-                    <p className="mt-2 text-renaissance-blue/80 font-sans-elegant">{item.details}</p>
-                  )}
+                  <article className="grid grid-cols-[4.5rem_minmax(0,1fr)] gap-5 items-center rounded-2xl border border-[#285052] bg-[#163334]/60 p-4 md:p-5">
+                    <div className="grid h-[4.5rem] w-[4.5rem] place-items-center overflow-hidden rounded-xl bg-white p-2">
+                      <img src={item.logo.src} alt={item.logo.alt} width={item.logo.width} height={item.logo.height} loading="lazy" decoding="async" className="h-full w-full object-contain" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-serif-elegant text-renaissance-brown">{item.title}</h3>
+                      <div className="text-sm text-renaissance-brown/60 font-sans-elegant">{item.institution} - {item.period}</div>
+                      {item.details && <p className="mt-2 text-renaissance-blue/80 font-sans-elegant">{item.details}</p>}
+                    </div>
+                  </article>
                 </li>
               ))}
             </ol>
@@ -110,11 +118,11 @@ const EducationPage = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="bg-white/70 border border-renaissance-gold/20 rounded-3xl p-6 md:p-10 shadow"
+            className="bg-[#102829]/80 border border-renaissance-gold/20 rounded-3xl p-6 md:p-10 shadow"
           >
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {certifications.map((c, idx) => (
-                <div key={idx} className="rounded-xl border border-renaissance-gold/20 bg-white overflow-hidden">
+                <div key={idx} className="rounded-xl border border-renaissance-gold/20 bg-[#163334] overflow-hidden">
                   {c.image && (
                     <div className="aspect-[4/3] bg-renaissance-cream/60 flex items-center justify-center">
                       <img src={c.image} alt={c.title} className="max-h-full max-w-full object-contain p-4" />

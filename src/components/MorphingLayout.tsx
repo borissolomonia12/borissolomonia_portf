@@ -45,7 +45,7 @@ const MorphingLayout = ({ children, className = '', morphType = 'golden' }: Morp
 
   const getMorphPath = () => {
     switch (morphType) {
-      case 'golden':
+      case 'golden': {
         // Golden ratio spiral morphing
         const phi = 1.618
         switch (morphState) {
@@ -54,6 +54,7 @@ const MorphingLayout = ({ children, className = '', morphType = 'golden' }: Morp
           case 2: return `M0,0 Q${120/phi},${80/phi} 100,100 Q${220-100/phi},${80/phi} 220,0 Q${220-100/phi},${-120/phi} 100,-120 Q${120/phi},${-120/phi} 0,0`
           default: return `M0,0 Q${100/phi},${100/phi} 100,100 Q${200-100/phi},${100/phi} 200,0 Q${200-100/phi},${-100/phi} 100,-100 Q${100/phi},${-100/phi} 0,0`
         }
+      }
       
       case 'organic':
         // Organic flowing shapes
@@ -102,8 +103,8 @@ const MorphingLayout = ({ children, className = '', morphType = 'golden' }: Morp
           />
           <defs>
             <linearGradient id="morphGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3B82F6" />
-              <stop offset="100%" stopColor="#1D4ED8" />
+              <stop offset="0%" stopColor="#D8894D" />
+              <stop offset="100%" stopColor="#2DB7A3" />
             </linearGradient>
           </defs>
         </svg>
@@ -114,7 +115,7 @@ const MorphingLayout = ({ children, className = '', morphType = 'golden' }: Morp
         {floatingDotAnimations.map((animation, index) => (
           <motion.div
             key={index}
-            className="absolute w-2 h-2 bg-blue-400 rounded-full opacity-30"
+            className="absolute w-2 h-2 bg-teal rounded-full opacity-30"
             animate={{
               x: animation.x,
               y: animation.y

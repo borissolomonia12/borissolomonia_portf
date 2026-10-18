@@ -1,0 +1,68 @@
+﻿.sales-hero { min-height: auto; padding-bottom: 4rem; }
+.sales-hero__intro { display:grid; grid-template-columns:minmax(0,1fr) 18rem; gap:clamp(2rem,6vw,5rem); align-items:end; }
+.sales-hero__copy h1 { max-width:14ch; font-size:clamp(3.4rem,7.3vw,7rem); }
+.authority-card { display:grid; grid-template-columns:5.25rem 1fr; gap:1rem; align-items:center; margin-bottom:.5rem; border-top:1px solid rgba(16,185,129,.38); padding-top:1rem; }
+.authority-card img { width:5.25rem; height:5.25rem; border-radius:.7rem; object-fit:cover; object-position:center 24%; filter:saturate(.82); }
+.authority-card div { display:grid; gap:.14rem; }
+.authority-card span,.authority-card p { margin:0; color:#64748b; font:500 .62rem/1.5 'IBM Plex Mono',monospace; letter-spacing:.06em; text-transform:uppercase; }
+.authority-card strong { color:#f8fafc; font-size:1rem; }
+.finance-flow { margin:clamp(3rem,7vw,6rem) 0 0; border:1px solid rgba(59,130,246,.22); border-radius:1rem; background:rgba(7,16,31,.88); box-shadow:0 35px 100px rgba(0,0,0,.28); overflow:hidden; }
+.finance-flow__header { display:flex; justify-content:space-between; border-bottom:1px solid rgba(148,163,184,.15); padding:.8rem 1rem; color:#64748b; font:600 .62rem 'IBM Plex Mono',monospace; letter-spacing:.11em; text-transform:uppercase; }
+.finance-flow__header strong { color:#6ee7b7; font-weight:600; }
+.finance-flow__map { position:relative; min-height:32rem; }
+.finance-flow__lines { position:absolute; inset:0; width:100%; height:100%; }
+.finance-flow__lines path { fill:none; stroke:rgba(59,130,246,.36); stroke-width:1.3; vector-effect:non-scaling-stroke; stroke-dasharray:1; stroke-dashoffset:1; animation:rail-draw .52s ease-out forwards; animation-delay:calc((var(--line-order, 0) + 1) * .5s); }
+.flow-node { --stage-order:0; position:absolute; display:grid; gap:.4rem; width:14rem; border:1px solid rgba(148,163,184,.19); border-radius:.75rem; padding:.85rem; background:rgba(15,23,42,.96); opacity:0; transform:translateY(12px); animation:stage-in .45s ease-out forwards; animation-delay:calc(var(--stage-order) * .55s + .18s); }
+.flow-node__step { color:#475569!important; font:600 .59rem 'IBM Plex Mono',monospace; }
+.flow-node strong { color:#f8fafc; font-size:.82rem; line-height:1.2; }
+.flow-node>span:last-child { color:#7f91a7; font-size:.66rem; line-height:1.4; }
+.flow-node--client-system { left:3%; top:42%; width:13rem; }
+.flow-node--control-system { left:29%; top:25%; width:22rem; border-color:rgba(16,185,129,.52); box-shadow:0 20px 60px rgba(16,185,129,.09); }
+.flow-node--rsge { left:63%; top:6%; width:12rem; }
+.flow-node--banks { left:63%; top:37%; width:12rem; }
+.flow-node--delivery { left:63%; top:69%; width:12rem; }
+.flow-node--financial-analysis { right:2%; top:23%; width:10.5rem; }
+.flow-node--big-data-analysis { right:2%; top:56%; width:10.5rem; }
+.flow-node__capture { width:100%; height:7.8rem; border:1px solid rgba(148,163,184,.14); border-radius:.4rem; object-fit:cover; object-position:top; }
+.flow-node__brands,.product-card__brands { display:flex; flex-wrap:wrap; gap:.35rem; }
+.integration-badge { display:inline-flex; align-items:center; gap:.45rem; min-height:2.2rem; border:1px solid rgba(148,163,184,.19); border-radius:.55rem; padding:.27rem .55rem .27rem .3rem; background:rgba(15,23,42,.72); color:#dbe5f1; font:600 .67rem 'IBM Plex Mono',monospace; }
+.integration-badge img { width:3rem; height:1rem; border-radius:.2rem; object-fit:contain; }
+.integration-badge[data-brand="bog"] img,.integration-badge[data-brand="wolt"] img { width:3.5rem; height:1.4rem; }
+.integration-badge--compact { min-height:1.6rem; padding:.18rem .4rem .18rem .2rem; font-size:.56rem; }
+.integration-badge--compact img { width:2.25rem; height:.75rem; }
+.integration-badge--compact[data-brand="bog"] img,.integration-badge--compact[data-brand="wolt"] img { width:2.65rem; height:1.05rem; }
+.case-study__chrome>div { display:flex; gap:.3rem; margin-left:auto; }
+.case-study__chrome .integration-badge { border:0; background:transparent; padding:0; }
+.case-study__chrome .integration-badge span { width:auto; height:auto; border-radius:0; background:transparent; }
+.skills-grid { grid-template-columns:repeat(5,1fr); }
+.skill-card { min-height:22rem; }
+.skill-card h3 { margin-top:4rem; font-size:1.3rem; }
+.network-preview span { display:none; }
+@keyframes stage-in { to { opacity:1; transform:translateY(0); } }
+@keyframes rail-draw { to { stroke-dashoffset:0; } }
+.finance-flow[data-paused="true"] * { animation-play-state:paused!important; }
+.finance-flow[data-reduced-motion="true"] .flow-node { opacity:1; transform:none; animation:none; }
+.finance-flow[data-reduced-motion="true"] .finance-flow__lines path { stroke-dashoffset:0; animation:none; }
+@media (max-width:1100px) { .finance-flow__map { min-height:36rem; } .flow-node--control-system{left:26%;width:20rem}.flow-node--rsge,.flow-node--banks,.flow-node--delivery{left:66%}.flow-node--financial-analysis,.flow-node--big-data-analysis{right:1%;width:10rem}.skills-grid{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:900px) { .sales-hero__intro{grid-template-columns:1fr}.authority-card{max-width:22rem}.finance-flow__map{display:grid; min-height:0; gap:.7rem; padding:1rem}.finance-flow__lines{display:none}.flow-node{position:relative!important; inset:auto!important; width:100%!important;}.flow-node:not(:last-child)::after{position:absolute; left:50%; bottom:-.7rem; width:1px; height:.7rem; background:#3b82f6; content:''}.skills-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:640px) { .sales-hero__copy h1{font-size:clamp(3rem,14vw,4.5rem)}.skills-grid{grid-template-columns:1fr}.skill-card{min-height:14rem}.skill-card h3{margin-top:2.5rem}.integration-strip .integration-badge{flex:1 0 5rem}.case-study__chrome>div{display:none} }
+@media (prefers-reduced-motion:reduce) { .finance-flow .flow-node{opacity:1;transform:none;animation:none}.finance-flow__lines path{stroke-dashoffset:0;animation:none} }
+
+.technical-stack-section { padding:0 0 clamp(6rem,11vw,10rem); }
+.technical-stack { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:1px; overflow:hidden; border:1px solid rgba(148,163,184,.18); border-radius:1rem; background:rgba(148,163,184,.18); }
+.technical-stack__group { position:relative; min-width:0; min-height:20rem; padding:1.25rem; background:linear-gradient(155deg,rgba(15,23,42,.94),rgba(7,16,31,.92)); }
+.technical-stack__group:not(:last-child)::after { position:absolute; z-index:2; top:2.15rem; right:-.34rem; width:.65rem; height:.65rem; border-top:1px solid #3b82f6; border-right:1px solid #3b82f6; background:#0b1627; content:''; transform:rotate(45deg); }
+.technical-stack__stage { min-height:5rem; border-bottom:1px solid rgba(148,163,184,.15); }
+.technical-stack__stage span { color:#6ee7b7; font:600 .61rem 'IBM Plex Mono',monospace; letter-spacing:.12em; }
+.technical-stack__stage h3 { margin:.65rem 0 1rem; color:#e7eef8; font-size:.82rem; font-weight:650; line-height:1.25; }
+.technical-stack__group ul { display:grid; gap:.65rem; margin:1.2rem 0 0; padding:0; list-style:none; }
+.technical-stack__group li { display:grid; gap:.18rem; border-left:2px solid rgba(59,130,246,.52); padding:.55rem .65rem; background:rgba(30,41,59,.42); }
+.technical-stack__group:nth-child(1) li { border-left-color:#fbbf24; }
+.technical-stack__group:nth-child(4) li { border-left-color:#34d399; }
+.technical-stack__group:nth-child(5) li { border-left-color:#a78bfa; }
+.technical-stack__group li strong { color:#f8fafc; font-size:.8rem; font-weight:650; }
+.technical-stack__group li span { color:#64748b; font:500 .57rem 'IBM Plex Mono',monospace; line-height:1.4; text-transform:uppercase; letter-spacing:.035em; }
+@media(max-width:1100px){.technical-stack{grid-template-columns:repeat(3,1fr)}.technical-stack__group:not(:last-child)::after{display:none}}
+@media(max-width:720px){.technical-stack{grid-template-columns:1fr 1fr}.technical-stack__group{min-height:0}}
+@media(max-width:480px){.technical-stack{grid-template-columns:1fr}.technical-stack__group{padding:1rem}.technical-stack__stage{min-height:0}.technical-stack__group ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+

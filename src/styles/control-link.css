@@ -1,0 +1,3 @@
+.flow-node--control-system{color:inherit;text-decoration:none;cursor:pointer;transition:border-color 160ms ease,box-shadow 160ms ease,transform 160ms ease}
+.flow-node--control-system:hover{border-color:var(--copper-bright);box-shadow:0 22px 70px rgba(216,137,77,.18)}
+.flow-node--control-system>small{color:var(--copper-bright);font:600 .55rem 'IBM Plex Mono',monospace;letter-spacing:.03em}

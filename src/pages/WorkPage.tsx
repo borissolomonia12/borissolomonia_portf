@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link } from '../routing'
 import MorphingLayout from '../components/MorphingLayout'
 import CareerTimeline from '../components/CareerTimeline'
 
@@ -90,14 +90,14 @@ const WorkPage = () => {
 
                 <button
                   onClick={() => {
-                    const futureSection = document.querySelector('[data-year="2028"]')
+                    const futureSection = document.querySelector('[data-year="2026"]')
                     futureSection?.scrollIntoView({ behavior: 'smooth', block: 'center' })
                   }}
                   className="group flex flex-col items-center"
                 >
                   <div className="w-3 h-3 rounded-full bg-renaissance-gold border-2 border-renaissance-cream group-hover:bg-renaissance-gold transition-colors duration-300 mb-2"></div>
                   <span className="text-xs font-sans-elegant text-renaissance-brown/70 group-hover:text-renaissance-gold transition-colors duration-300 text-center">
-                    Future
+                    Now
                   </span>
                 </button>
               </div>
@@ -124,7 +124,7 @@ const WorkPage = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Ready to Transform Your Business?
+            Let’s build the next system.
           </motion.h2>
           
           <motion.p
@@ -134,7 +134,7 @@ const WorkPage = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            Let's collaborate on implementing proven methodologies and technologies to solve your most complex financial and operational challenges.
+            I’m interested in roles where financial judgment and hands-on engineering can shape the same system.
           </motion.p>
           
           <motion.div
@@ -145,13 +145,12 @@ const WorkPage = () => {
           >
             <Link
               to="/contact"
-              className="inline-flex items-center space-x-3 px-8 py-4 bg-renaissance-gold text-white rounded-xl font-sans-elegant font-bold hover:bg-renaissance-gold/90 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center space-x-3 px-8 py-4 bg-renaissance-gold text-renaissance-cream rounded-xl font-sans-elegant font-bold hover:bg-[#e7a56e] transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              <span>Start a Conversation</span>
+              <span>Discuss a role</span>
               <motion.span 
                 className="inline-flex"
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                aria-hidden="true"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14m-6-6l6 6-6 6" />

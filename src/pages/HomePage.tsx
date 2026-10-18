@@ -1,185 +1,42 @@
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import HeroSection from '../components/HeroSection'
-import ParticleField from '../components/ParticleField'
-import MorphingLayout from '../components/MorphingLayout'
-import InteractiveDataArt from '../components/InteractiveDataArt'
-import EmailForm from '../components/EmailForm'
+import { useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
+import { Link } from '../routing'
+import NetworkBackground from '../components/NetworkBackground'
+import IntegrationBadge from '../components/IntegrationBadge'
+import TechnologyStack from '../components/TechnologyStack'
+import FeaturedSystems from '../components/FeaturedSystems'
+import ProjectScreens from '../components/ProjectScreens'
+import FinanceFlow from '../components/FinanceFlow'
+import { type IntegrationBrandId } from '../data/portfolio'
+
+const capabilities = [
+  { title: 'Financial judgment', description: 'Define the number, its assumptions, and the decision it needs to support.' },
+  { title: 'Full-stack systems', description: 'Connect the domain model, application, data, and the interface people use.' },
+  { title: 'Operational automation', description: 'Remove repetitive copying and make exceptions visible when judgment is needed.' }
+]
 
 const HomePage = () => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-  const [isHovered, setIsHovered] = useState(false)
-  const [scrollY, setScrollY] = useState(0)
+  const [motionPaused, setMotionPaused] = useState(false)
+  const reducedMotion = useReducedMotion()
+  const staticMotion = motionPaused || Boolean(reducedMotion)
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
-
-  useEffect(() => {
-    let ticking = false
-
-    const updateScroll = () => {
-      const currentScroll = window.scrollY || window.pageYOffset || 0
-      setScrollY((prev) => {
-        if (Math.abs(prev - currentScroll) < 1) {
-          return prev
-        }
-        return currentScroll
-      })
-      ticking = false
-    }
-
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateScroll)
-        ticking = true
-      }
-    }
-
-    updateScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  const workSteps = [
-    {
-      title: 'Find the Problem',
-      description: 'Every complex system has one core issue. I find it fast.',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      ),
-      morphType: 'data'
-    },
-    {
-      title: 'Build the Solution',
-      description: 'Clean code. Smart design. Systems that work perfectly.',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.7 6.3a1 1 0 010 1.4l-7.8 7.8-3.6.8.8-3.6 7.8-7.8a1 1 0 011.4 0l1.4 1.4z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6h4a2 2 0 012 2v4" />
-        </svg>
-      ),
-      morphType: 'organic'
-    },
-    {
-      title: 'Measure Success',
-      description: 'Real metrics. Clear improvements. Proven results.',
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v13h16V7" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7l8-4 8 4" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h8" />
-        </svg>
-      ),
-      morphType: 'golden'
-    }
-  ] as const
-
-  return (
-    <div
-      className="overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <ParticleField
-        mouseX={mousePos.x}
-        mouseY={mousePos.y}
-        isHovered={isHovered}
-      />
-
-      <div className="min-h-screen pt-20 relative z-10">
-        <HeroSection scrollY={scrollY} />
-
-        <div className="max-w-7xl mx-auto px-6 mt-10">
-          <div className="relative bg-white/80 border border-renaissance-gold/30 rounded-3xl p-8 overflow-hidden">
-            <div className="absolute -top-16 -right-16 h-40 w-40 rounded-full bg-renaissance-gold/10" />
-            <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-renaissance-blue/10" />
-            <div className="relative">
-              <h2 className="text-3xl font-serif-elegant text-renaissance-brown text-center mb-2">
-                RS.ge MCP Download
-              </h2>
-              <p className="text-center text-renaissance-blue/80 font-sans-elegant mb-6">
-                Receive the installer and a confirmation email for the RS.ge MCP setup.
-              </p>
-              <EmailForm />
-              <div className="text-center mt-4">
-                <Link to="/instructions" className="text-renaissance-blue hover:underline">
-                  Instructions for installation
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Top quick links: Work then Education */}
-        <div className="max-w-7xl mx-auto px-6 mt-10">
-          <div className="grid gap-4 md:grid-cols-2">
-            <Link
-              to="/work"
-              className="block rounded-2xl p-6 bg-white/70 border border-renaissance-gold/20 hover:shadow-lg transition"
-            >
-              <div className="text-sm font-sans-elegant text-renaissance-brown/60 mb-1">Explore</div>
-              <div className="text-2xl font-serif-elegant text-renaissance-brown">Work</div>
-              <div className="text-renaissance-blue/80 mt-1">Projects, impact, and experience</div>
-            </Link>
-            <Link
-              to="/education"
-              className="block rounded-2xl p-6 bg-white/70 border border-renaissance-gold/20 hover:shadow-lg transition"
-            >
-              <div className="text-sm font-sans-elegant text-renaissance-brown/60 mb-1">Next</div>
-              <div className="text-2xl font-serif-elegant text-renaissance-brown">Education</div>
-              <div className="text-renaissance-blue/80 mt-1">Timeline and certifications</div>
-            </Link>
-          </div>
-        </div>
-
-        <MorphingLayout morphType="golden" className="py-20 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-serif-elegant text-renaissance-brown mb-6">
-                How I Work
-              </h2>
-              <p className="text-xl text-renaissance-blue/80 max-w-2xl mx-auto">
-                Simple process. Powerful results. Your financial systems become intuitive.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-12">
-              {workSteps.map((step) => (
-                <MorphingLayout
-                  key={step.title}
-                  morphType={step.morphType}
-                  className="text-center bg-white/70 rounded-2xl p-8 border border-renaissance-gold/20"
-                >
-                  <div className="mx-auto mb-4 w-12 h-12 rounded-full bg-renaissance-gold/15 text-renaissance-brown flex items-center justify-center">
-                    {step.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-renaissance-brown mb-4">{step.title}</h3>
-                  <p className="text-renaissance-blue/80">{step.description}</p>
-                </MorphingLayout>
-              ))}
-            </div>
-          </div>
-        </MorphingLayout>
-
-        <div className="py-20 px-6">
-          <div className="max-w-4xl mx-auto">
-            <InteractiveDataArt />
-          </div>
-        </div>
+  return <div className="sales-page portfolio-home">
+    <NetworkBackground paused={motionPaused} />
+    <section className="sales-hero" aria-labelledby="sales-hero-title"><div className="sales-shell">
+      <div className="hero-utility"><span>Tbilisi / Remote</span><button type="button" className="motion-control" aria-pressed={staticMotion} disabled={Boolean(reducedMotion)} onClick={() => setMotionPaused(value => !value)}><span aria-hidden="true">{staticMotion ? '▷' : 'Ⅱ'}</span>{reducedMotion ? 'Reduced motion' : motionPaused ? 'Resume motion' : 'Pause motion'}</button></div>
+      <div className="sales-hero__intro">
+        <div className="sales-hero__copy"><p className="data-label">Financial manager & full-stack engineer</p><h1 id="sales-hero-title">I turn financial complexity into <span>working systems.</span></h1><p className="sales-hero__lead">I automate financial analysis and operations, and build products that connect people to places.</p><div className="sales-hero__actions"><a className="button-primary" href="#nine-t-erp">Explore 9T ERP <span aria-hidden="true">↗</span></a><Link className="button-secondary" to="/contact">Discuss a role</Link></div><nav className="hero-project-links" aria-label="Selected project shortcuts"><a href="#nine-t-erp">9T ERP</a><span aria-hidden="true">/</span><a href="#optimo">Optimo</a><span aria-hidden="true">/</span><a href="#brooks">Brooks</a><span aria-hidden="true">/</span><a href="#bachmann">Bachmann</a></nav></div>
+        <aside className="hero-evidence" aria-label="A first look at my work"><ProjectScreens /><div className="authority-card" aria-label="About Boris Solomonia"><img src="/images/profile-photo.jpg" alt="Boris Solomonia, financial manager and full-stack engineer" width="768" height="877" loading="eager" decoding="async" /><div><span>Designed and built by</span><strong>Boris Solomonia</strong><p>Finance judgment. Engineering ownership.</p></div></div></aside>
       </div>
-    </div>
-  )
+    </div></section>
+    <section className="integration-strip" aria-label="Integration experience"><div className="sales-shell"><p>Systems I work across</p><div>{(['rsge', 'bog', 'tbc', 'wolt', 'glovo'] as IntegrationBrandId[]).map(id => <IntegrationBadge id={id} key={id} />)}</div></div></section>
+    <section className="implementation-network sales-shell" id="implementation-network" aria-labelledby="implementation-network-title"><div className="section-heading section-heading--split"><div><p className="data-label">The connections are the work</p><h2 id="implementation-network-title">Not isolated screens.<br />Connected systems.</h2></div><p>Accounting, tax, banks and delivery platforms. I build the connections that turn separate records into something people can use.</p></div><FinanceFlow motionPaused={staticMotion} /></section>
+    <FeaturedSystems />
+    <section className="builder-note sales-shell" aria-labelledby="builder-note-title"><div><p className="data-label">Why I build</p><h2 id="builder-note-title">Less repetitive work.<br />More room for meaning.</h2></div><div><p>Financial systems should take repetitive analysis and operations out of people’s way. The interesting work is understanding the problem, making uncertainty visible, and building a system that helps someone act.</p><p>Brooks comes from another part of the same curiosity: how software can deepen our connection to a place and to someone important.</p><Link className="inline-link" to="/work">Explore my experience ↗</Link></div></section>
+    <section className="skills-section" aria-labelledby="skills-title"><div className="sales-shell"><div className="section-heading"><p className="data-label">Behind the work</p><h2 id="skills-title">Understand the problem.<br />Own the system.</h2></div><div className="skills-grid">{capabilities.map(skill => <article key={skill.title} className="skill-card"><h3>{skill.title}</h3><p>{skill.description}</p></article>)}</div></div></section>
+    <TechnologyStack />
+    <section className="sales-cta" aria-labelledby="cta-title"><div className="sales-shell sales-cta__inner"><div><p className="data-label">The next system</p><h2 id="cta-title">Let’s build something worth understanding.</h2></div><div><p>I’m interested in roles that bring together business judgment and hands-on engineering.</p><div className="demo-actions"><Link className="button-primary" to="/contact">Discuss a role</Link><a className="inline-link" href="/files/CV/Boris_Solomonia_Resume_19062026.pdf" target="_blank" rel="noreferrer">View résumé ↗</a></div></div></div></section>
+  </div>
 }
 
 export default HomePage
