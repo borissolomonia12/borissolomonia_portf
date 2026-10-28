@@ -65,12 +65,12 @@ const ContactPage = () => {
             <div>
               <dt className="font-data text-xs uppercase tracking-[0.12em] text-slate-500">Network</dt>
               <dd className="mt-2 flex gap-4">
-                <a className="text-blue-300 hover:text-white" href="https://www.linkedin.com/in/boris-solomonia-mba-245b4855/" target="_blank" rel="noreferrer">LinkedIn</a>
+                <a className="text-blue-300 hover:text-white" href="https://www.linkedin.com/in/boris-solomonia-245b4855/" target="_blank" rel="noreferrer">LinkedIn</a>
                 <a className="text-blue-300 hover:text-white" href="https://github.com/BorisSolomonia" target="_blank" rel="noreferrer">GitHub</a>
               </dd>
             </div>
           </dl>
-          <a className="contact-resume" href="/files/CV/Boris_Solomonia_Resume_19062026.pdf" target="_blank" rel="noreferrer">View résumé ↗</a>
+          <a className="contact-resume" href="/files/CV/Boris_Solomonia_Resume_28102026.pdf" target="_blank" rel="noreferrer">View résumé ↗</a>
         </section>
 
         <section className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 shadow-2xl shadow-black/20 md:p-9" aria-labelledby="contact-form-title">

@@ -103,21 +103,26 @@ const TIMELINE: TimelineYear[] = [
         org: "JSC SavvY",
         period: "2019-2021",
         bullets: [
-          "20+ engagements: valuation & FP&A models, driver trees, covenants.",
+          "60+ engagements: valuation & FP&A models, driver trees, covenants.",
           "Executive dashboards & scenario analysis.",
         ],
       },
     ],
   },
   {
-    year: 2021,
+    year: 2020,
     items: [
       {
         title: "Lecturer of Managerial Accounting (ACCA F2)",
         org: "Ilia State University",
-        period: "2021-present",
+        period: "2020-2023",
         bullets: ["Live cases, simulations; engagement-first pedagogy."],
       },
+    ],
+  },
+  {
+    year: 2021,
+    items: [
       {
         title: "CFO / Analyst of Monetary Policy",
         org: "Girchi (Parliament of Georgia)",
@@ -134,9 +139,9 @@ const TIMELINE: TimelineYear[] = [
     year: 2022,
     items: [
       {
-        title: "Java Developer (Top 2 of 500)",
-        org: "EPAM Systems",
-        period: "2022",
+        title: "Java Developer program (training)",
+        org: "EPAM UpSkill Georgia",
+        period: "2022-2023",
         bullets: [
           "Core Java, Spring Boot, Docker, K8s; several finance micro-projects.",
           "Focus on correctness, tests, performance.",
@@ -153,7 +158,7 @@ const TIMELINE: TimelineYear[] = [
         period: "2023-present",
         bullets: [
           "Comprehensive financial strategy & CCC optimization.",
-          "Statistical sales forecasting; reduced fixed costs ~5%.",
+          "Statistical sales forecasting to cut stock shortages.",
           "Daily ops dashboard: inventory, debtor scoring, alerts.",
         ],
       },
@@ -177,11 +182,6 @@ const TIMELINE: TimelineYear[] = [
         period: "Ongoing",
         linkLabel: "Open course",
         linkHref: "https://www.bitcamp.ge/courses/java/",
-      },
-      {
-        title: "Economic Book",
-        org: "Redactor",
-        period: "Ongoing",
       },
     ],
   },
