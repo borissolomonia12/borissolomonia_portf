@@ -23,9 +23,9 @@ const ORGANIZATION_LOGOS: { [key: string]: string } = {
   "Ilia State University": "/images/ilia.png",
 
   // Work experience
-  "Agency of Agricultural Projects Management": "/images/RDA-Logo.png",
+  "Rural Development Agency (RDA)": "/images/RDA-Logo.png",
   "JSC SavvY": "/images/savvy.png",
-  "Girchi (Parliament of Georgia)": "/images/girchi.jpg",
+  "Girchi": "/images/girchi.jpg",
   "EPAM Systems": "/images/epam-1.png",
   "9 Tones Distribution": "/images/9t.png",
   "Bitcamp": "/images/bitcamp.png",
@@ -64,14 +64,24 @@ const TIMELINE: TimelineYear[] = [
     year: 2016,
     items: [
       {
-        title: "Financial Manager / Operations Manager",
-        org: "Agency of Agricultural Projects Management",
-        period: "2016-2019",
+        title: "Financial Analyst",
+        org: "Rural Development Agency (RDA)",
+        period: "2016-2017",
+        bullets: ["50+ financial and operational models."],
+      },
+    ],
+  },
+  {
+    year: 2017,
+    items: [
+      {
+        title: "Senior Financial Manager",
+        org: "Rural Development Agency (RDA)",
+        period: "2017-2019",
         bullets: [
-          "Designed streamlined financial processes.",
-          "Managed complex project budgets and compliance.",
-          "Built logistic system for the organization.",
-          "Managed a team of 7 employees.",
+          "Prepared and executed multi-million budgets; built internal controls for reporting.",
+          "Maintained the debtor database.",
+          "100+ financial and operational models.",
         ],
       },
     ],
@@ -89,15 +99,6 @@ const TIMELINE: TimelineYear[] = [
   {
     year: 2019,
     items: [
-      {
-        title: "Senior Budgeting & Reporting Manager",
-        org: "Agency of Agricultural Projects Management",
-        period: "2019",
-        bullets: [
-          "Directed multi-million budgeting; implemented internal controls.",
-          "Maintained & optimized debtor database.",
-        ],
-      },
       {
         title: "Senior Associate (Consulting)",
         org: "JSC SavvY",
@@ -124,8 +125,8 @@ const TIMELINE: TimelineYear[] = [
     year: 2021,
     items: [
       {
-        title: "CFO / Analyst of Monetary Policy",
-        org: "Girchi (Parliament of Georgia)",
+        title: "CFO / Monetary Policy Analyst",
+        org: "Girchi",
         period: "2021-present",
         bullets: [
           "Built finance policies & accounting app.",
