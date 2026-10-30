@@ -10,6 +10,8 @@ import './styles/control-link.css'
 import './styles/control-integrations.css'
 import './styles/portfolio-enhancements.css'
 import './styles/network-showcase.css'
+import './styles/course.css'
+import './styles/home-highlights.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

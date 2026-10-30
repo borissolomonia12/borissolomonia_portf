@@ -6,6 +6,7 @@ const navItems = [
   { path: '/', label: 'Home' },
   { path: '/projects', label: 'My Systems' },
   { path: '/#technical-skills', label: 'Skills' },
+  { path: '/#java-course', label: 'Course' },
   { path: '/work', label: 'Experience' },
   { path: '/education', label: 'Education' },
   { path: '/contact', label: 'Contact' }

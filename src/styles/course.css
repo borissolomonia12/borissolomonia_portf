@@ -1,0 +1,54 @@
+/* Teaching course block. Layout borrowed from course features on aihero.dev; colours stay Copper & Teal. */
+.course-feature { position:relative; padding-top:5rem; margin-top:5rem; border-top:1px solid var(--line); scroll-margin-top:6rem; }
+.course-feature__intro { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:clamp(2rem,6vw,6rem); align-items:start; }
+.course-feature__copy h2 { max-width:14ch; margin:0; color:var(--ink); font-size:clamp(2.35rem,4.6vw,4rem); font-weight:750; line-height:1.05; letter-spacing:-.05em; }
+.course-feature__promise { max-width:30rem; margin:1.4rem 0 0; color:var(--copper-bright); font-size:clamp(1.1rem,1.7vw,1.4rem); font-weight:550; line-height:1.45; letter-spacing:-.015em; }
+.course-feature__description { max-width:32rem; margin:1.2rem 0 0; color:var(--muted); font-size:.98rem; line-height:1.8; }
+.course-feature__actions { display:flex; flex-wrap:wrap; gap:.75rem; margin-top:2rem; }
+
+.course-cover { position:relative; display:grid; grid-template-columns:1.25fr 1fr; min-height:17rem; overflow:hidden; border:1px solid rgba(216,137,77,.35); border-radius:1rem; background:radial-gradient(circle at 30% 0%,rgba(45,183,163,.14),transparent 22rem),var(--slate-deep); box-shadow:0 24px 85px rgba(0,0,0,.25); color:inherit; text-decoration:none; transition:border-color 180ms ease, transform 180ms ease; }
+.course-cover:hover { border-color:var(--copper-bright); transform:translateY(-2px); }
+.course-cover:focus-visible { outline:2px solid var(--copper-bright); outline-offset:4px; }
+.course-cover__copy { display:flex; flex-direction:column; justify-content:center; gap:.7rem; padding:1.8rem; }
+.course-cover__code { color:var(--teal-bright); font:500 .7rem/1.5 'IBM Plex Mono',monospace; }
+.course-cover__copy strong { color:var(--ink); font-size:clamp(1.45rem,2.3vw,1.95rem); line-height:1.15; letter-spacing:-.035em; }
+.course-cover__copy>span:not(.course-cover__code) { color:var(--muted); font:500 .7rem/1.5 'IBM Plex Mono',monospace; }
+.course-cover__platform { width:3.4rem; height:3.4rem; margin-top:.6rem; border-radius:.5rem; }
+.course-cover__portrait { position:relative; overflow:hidden; }
+.course-cover__portrait img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 15%; }
+.course-cover__portrait::after { position:absolute; inset:0; background:linear-gradient(90deg,var(--slate-deep) 0%,rgba(7,24,25,.55) 22%,transparent 55%),linear-gradient(0deg,rgba(216,137,77,.28),transparent 45%); content:''; }
+
+.course-facts { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin:1.6rem 0 0; }
+.course-facts>div { display:flex; flex-direction:column-reverse; justify-content:flex-end; gap:.3rem; min-width:0; }
+.course-facts dd { margin:0; color:var(--ink); font:500 clamp(1.3rem,2vw,1.65rem)/1.1 'IBM Plex Mono',monospace; letter-spacing:-.03em; overflow-wrap:anywhere; }
+.course-facts dt { color:var(--muted-deep); font:500 .6rem/1.5 'IBM Plex Mono',monospace; letter-spacing:.12em; text-transform:uppercase; }
+
+.course-modules { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); margin:3.5rem 0 0; padding:0; border:1px solid var(--line); border-radius:1rem; overflow:hidden; list-style:none; background:rgba(7,24,25,.6); }
+.course-modules>li { min-width:0; padding:1.5rem; border-right:1px solid var(--line); border-bottom:1px solid var(--line); }
+.course-modules>li:nth-child(3n) { border-right:0; }
+.course-modules>li:nth-last-child(-n+3) { border-bottom:0; }
+.course-modules h3 { display:flex; align-items:baseline; gap:.6rem; margin:0; color:var(--ink); font-size:1.12rem; letter-spacing:-.02em; }
+.course-modules h3 span { color:var(--copper-bright); font:500 .65rem 'IBM Plex Mono',monospace; }
+.course-modules p { margin:.55rem 0 1rem; color:var(--muted); font-size:.85rem; line-height:1.65; }
+.course-modules ul { display:flex; flex-wrap:wrap; gap:.4rem; margin:0; padding:0; list-style:none; }
+.course-modules ul li { padding:.28rem .55rem; border:1px solid var(--line); border-radius:.35rem; background:rgba(16,40,41,.7); color:var(--ink-soft); font:500 .65rem/1.4 'IBM Plex Mono',monospace; }
+
+@media(max-width:900px) {
+  .course-feature__intro { grid-template-columns:1fr; }
+  .course-modules { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .course-modules>li:nth-child(3n) { border-right:1px solid var(--line); }
+  .course-modules>li:nth-child(2n) { border-right:0; }
+  .course-modules>li:nth-last-child(-n+3) { border-bottom:1px solid var(--line); }
+  .course-modules>li:nth-last-child(-n+2) { border-bottom:0; }
+}
+@media(max-width:640px) {
+  .course-feature { padding-top:3rem; margin-top:3.5rem; }
+  .course-cover { grid-template-columns:1fr; }
+  .course-cover__portrait { display:none; }
+  .course-facts { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .course-modules { grid-template-columns:1fr; }
+  .course-modules>li,.course-modules>li:nth-child(3n) { border-right:0; }
+  .course-modules>li:nth-last-child(-n+2) { border-bottom:1px solid var(--line); }
+  .course-modules>li:last-child { border-bottom:0; }
+}
+@media(prefers-reduced-motion:reduce) { .course-cover,.course-cover:hover { transition:none; transform:none; } }
